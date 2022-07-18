@@ -4,10 +4,75 @@
     <Filter Include="FUTA">
       <UniqueIdentifier>{1db3013b-118b-4bb4-9566-4d6779417381}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FUTA dependencies">
+      <UniqueIdentifier>{5ce86936-8a45-41cb-8e3c-78177ed1fe8a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>FUTA</Filter>
     </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>FUTA dependencies</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_demo.cpp">
+      <Filter>FUTA dependencies</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>FUTA dependencies</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_opengl3.cpp">
+      <Filter>FUTA dependencies</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_sdl.cpp">
+      <Filter>FUTA dependencies</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <Filter>FUTA dependencies</Filter>
+    </ClCompile>
+    <ClCompile Include="FUTA.cpp">
+      <Filter>FUTA</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks.cpp">
+      <Filter>FUTA</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="imconfig.h">
+      <Filter>FUTA dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui.h">
+      <Filter>FUTA dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_opengl3.h">
+      <Filter>FUTA dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_sdl.h">
+      <Filter>FUTA dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_internal.h">
+      <Filter>FUTA dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_rectpack.h">
+      <Filter>FUTA dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_textedit.h">
+      <Filter>FUTA dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_truetype.h">
+      <Filter>FUTA dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="MemLeaks.h">
+      <Filter>FUTA dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="PathNode.h">
+      <Filter>FUTA dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="FUTA.h">
+      <Filter>FUTA</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks.h">
+      <Filter>FUTA</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
