@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="FUTA">
+      <UniqueIdentifier>{1db3013b-118b-4bb4-9566-4d6779417381}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>FUTA</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
