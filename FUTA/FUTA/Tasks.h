@@ -27,10 +27,8 @@ public:
 	Tasks();
 	~Tasks();
 
-	int taskID;
+	double taskID;
 	int importance;
-	int initialDate;
-	int finalDate;
 	int progressionState;
 	int effort;
 
@@ -40,6 +38,8 @@ public:
 
 	std::string name;
 	std::string description;
+	std::string initialDate;
+	std::string finalDate;
 
 	std::vector<Subtasks> subtaskList;
 

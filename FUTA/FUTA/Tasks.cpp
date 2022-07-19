@@ -5,13 +5,14 @@ Subtasks::Subtasks() : started(false), completed(false), progressionState(0), ef
 
 Subtasks::~Subtasks() {}
 
-Tasks::Tasks() : importance(0), initialDate(-1), finalDate(-1), progressionState(0), effort(0), started(false), completed(false), deadline(false),
-name("NewTask"), description(""), subtaskList() {
+Tasks::Tasks() : importance(0), progressionState(0), effort(0), started(false), completed(false), deadline(false),
+name("NewTask"), description(""), initialDate(""), finalDate(""), subtaskList() {
 
 	time_t t = time(NULL); // 1. Is this a seed thing. 2. Fix the time conversions
 	struct tm tm = *localtime(&t);
-	printf("now: %d-%02d-%02d %02d:%02d:%02d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
-	taskID = 0;
+	double dayTimeComposition = (float)tm.tm_sec / (60.0 * 60.0 * 24.0) + (float)tm.tm_min / (60.0 * 24.0) + (float)tm.tm_hour / 24.0;
+	std::string dataID = std::to_string(tm.tm_yday) + std::to_string(tm.tm_year - 100);
+	taskID = std::stof(dataID.c_str()) + dayTimeComposition;
 
 }
 

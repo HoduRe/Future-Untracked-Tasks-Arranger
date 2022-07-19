@@ -23,12 +23,14 @@ private:
 	void DrawTaskList();
 
 	void DrawTask(Tasks& task);
+	std::string ConstructItemName(std::string itemName, double id);
+	void ComposeFUTADate(std::string startDate, std::string endDate, int& startDay, int& startMonth, int& startYear, int& endDay, int& endMonth, int& endYear);
+	void ComposeTaskDate(std::string& startDate, std::string& endDate, int startDay, int startMonth, int startYear, int endDay, int endMonth, int endYear);
 
 
 	void AddSeparator();
 	void AddTabulation();
 	void AddSpacedText(std::string text);
-	std::string ConstructItemName(std::string itemName, std::string taskName, int id);
 
 	bool FUTAmenu;
 	bool drawNewTask;
