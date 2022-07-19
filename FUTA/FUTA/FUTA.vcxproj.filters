@@ -36,6 +36,9 @@
     <ClCompile Include="Tasks.cpp">
       <Filter>FUTA</Filter>
     </ClCompile>
+    <ClCompile Include="FUTAUtilityFunctions.cpp">
+      <Filter>FUTA</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imconfig.h">

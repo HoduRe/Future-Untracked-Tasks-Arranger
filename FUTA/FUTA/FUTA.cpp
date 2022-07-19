@@ -68,25 +68,14 @@ void FUTA::DrawAddNewTask() {
 
 #pragma region DRAW_TASK_LIST
 
-void FUTA::DrawTaskList() {
-
-	for (int i = 0; i < taskList.size(); i++) { DrawTask(taskList[i]); }
-
-}
+void FUTA::DrawTaskList() { for (int i = 0; i < taskList.size(); i++) { DrawTask(taskList[i]); } }
 
 
 void FUTA::DrawTask(Tasks& task) {
 
 	AddSeparator();
 
-	// Add indicator if there are dependencies (since we use string for name, we can have a list for that? Just ommit yourself in the listing, and order them by name)
-	ImGui::Text(task.name.c_str());
-	AddSpacedText("Started");
-	ImGui::Checkbox(ConstructItemName("started", task.taskID).c_str(), &task.started);
-	AddSpacedText("Completed");
-	ImGui::Checkbox(ConstructItemName("completed", task.taskID).c_str(), &task.completed);
-	AddSpacedText("\t");
-	if (ImGui::Button("Delete task")) { /*TODO THIS*/ }
+	DrawBasicTaskData(task);
 
 	AddTabulation();
 	ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.25);
@@ -98,76 +87,101 @@ void FUTA::DrawTask(Tasks& task) {
 	const char* effortItems[] = { "No type", "Mindless", "Minimal focus", "Maximum focus" };
 	ImGui::Combo("Effort Type", &task.effort, effortItems, IM_ARRAYSIZE(effortItems));
 
-	AddTabulation();
-	int startDay = 18; int startMonth = 7; int startYear = 2022;
-	int endDay = 25; int endMonth = 7; int endYear = 2022;
-	
-	ComposeFUTADate(task.initialDate, task.finalDate, startDay, startMonth, startYear, endDay, endMonth, endYear);
-	ImGui::Text("Starting Date (D-M-Y)"); ImGui::SameLine(); ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.1);
-
-	ImGui::InputInt(ConstructItemName("startDay", task.taskID).c_str(), &startDay); ImGui::SameLine(); ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.1);
-	ImGui::InputInt(ConstructItemName("startMonth", task.taskID).c_str(), &startMonth); ImGui::SameLine(); ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.1);
-	ImGui::InputInt(ConstructItemName("startYear", task.taskID).c_str(), &startYear); AddTabulation();
-	
-	ImGui::Text("Ending Date (D-M-Y)"); ImGui::SameLine(); ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.1);
-	
-	ImGui::InputInt(ConstructItemName("endDay", task.taskID).c_str(), &endDay); ImGui::SameLine(); ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.1);
-	ImGui::InputInt(ConstructItemName("endMonth", task.taskID).c_str(), &endMonth); ImGui::SameLine(); ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.1);
-	ImGui::InputInt(ConstructItemName("endYear", task.taskID).c_str(), &endYear); ImGui::SameLine();
-	
-	ComposeTaskDate(task.initialDate, task.finalDate, startDay, startMonth, startYear, endDay, endMonth, endYear);
-	AddSpacedText("Deadline");
-	ImGui::Checkbox(ConstructItemName("deadline", task.taskID).c_str(), &task.deadline);
+	DrawDates(task);
 
 	AddTabulation();
 	ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.1);
 	ImGui::InputInt("Importance", &task.importance);
+
+	AddTabulation();
+	if (ImGui::TreeNode("Task description")) {
+
+		AddTabulation();
+		ImGuiInputTextFlags descriptionFlags = ImGuiInputTextFlags_NoHorizontalScroll;
+		ImVec2 descriptionBoxSize = ImVec2(ImGui::GetWindowWidth() * 0.8, ImGui::GetWindowHeight() * 0.1);
+		ImGui::InputTextMultiline(ConstructItemName("description", task.taskID).c_str(), (char*)task.description.c_str(), task.description.capacity(), descriptionBoxSize, descriptionFlags);
+		ImGui::TreePop();
+
+	}
+
+	DrawSubtasks(task);
 
 	AddSeparator();
 
 }
 
 
-void FUTA::ComposeFUTADate(std::string startDate, std::string endDate, int& startDay, int& startMonth, int& startYear, int& endDay, int& endMonth, int& endYear) {
+void FUTA::DrawBasicTaskData(Tasks& task) {
 
-	if(startDate.size() >= 8) {
+	ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.5);
+	ImGui::InputText(ConstructItemName("name", task.taskID).c_str(), (char*)task.name.c_str(), task.name.capacity());
+	AddSpacedText("Started");
+	ImGui::Checkbox(ConstructItemName("started", task.taskID).c_str(), &task.started);
+	AddSpacedText("Completed");
+	ImGui::Checkbox(ConstructItemName("completed", task.taskID).c_str(), &task.completed);
+	AddSpacedText("\t");
+	if (ImGui::Button("Delete task")) { /*TODO THIS: send a message of you sure, bruh*/ }
+	// Add indicator if there are dependencies (since we use string for name, we can have a list for that? Just ommit yourself in the listing, and order them by name)
 
-		startDay = stoi(startDate.substr(0, 2));
-		startMonth = stoi(startDate.substr(2, 2));
-		startYear = stoi(startDate.substr(4, startDate.size() - 4));
+}
 
-	}
 
-	if(endDate.size() >= 8) {
+void FUTA::DrawDates(Tasks& task) {
 
-		endDay = stoi(endDate.substr(0, 2));
-		endMonth = stoi(endDate.substr(2, 2));
-		endYear = stoi(endDate.substr(4, startDate.size() - 4));
+	AddTabulation();
+	int startDay = 18; int startMonth = 7; int startYear = 2022;
+	int endDay = 25; int endMonth = 7; int endYear = 2022;
+
+	ComposeFUTADate(task.initialDate, task.finalDate, startDay, startMonth, startYear, endDay, endMonth, endYear);
+	ImGui::Text("Starting Date (D-M-Y)"); ImGui::SameLine(); ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.1);
+
+	ImGui::InputInt(ConstructItemName("startDay", task.taskID).c_str(), &startDay); ImGui::SameLine(); ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.1);
+	ImGui::InputInt(ConstructItemName("startMonth", task.taskID).c_str(), &startMonth); ImGui::SameLine(); ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.1);
+	ImGui::InputInt(ConstructItemName("startYear", task.taskID).c_str(), &startYear); AddTabulation();
+
+	ImGui::Text("Ending Date (D-M-Y)"); ImGui::SameLine(); ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.1);
+
+	ImGui::InputInt(ConstructItemName("endDay", task.taskID).c_str(), &endDay); ImGui::SameLine(); ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.1);
+	ImGui::InputInt(ConstructItemName("endMonth", task.taskID).c_str(), &endMonth); ImGui::SameLine(); ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.1);
+	ImGui::InputInt(ConstructItemName("endYear", task.taskID).c_str(), &endYear); ImGui::SameLine();
+
+	ComposeTaskDate(task.initialDate, task.finalDate, startDay, startMonth, startYear, endDay, endMonth, endYear);
+	AddSpacedText("Deadline");
+	ImGui::Checkbox(ConstructItemName("deadline", task.taskID).c_str(), &task.deadline);
+
+}
+
+
+void FUTA::DrawSubtasks(Tasks& tasks) {
+
+	AddTabulation();
+
+	if (ImGui::TreeNode("Subtasks")) {
+
+		AddTabulation();
+		if (ImGui::Button("Add Subtask")) { tasks.subtaskList.push_back(Tasks()); }
+
+		for (int i = 0; i < tasks.subtaskList.size(); i++) {
+
+			Tasks& newTask = tasks.subtaskList[i];
+
+			AddTabulation();
+			DrawBasicTaskData(newTask);
+
+			AddTabulation();
+			ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.25);
+			const char* progressionItems[] = { "No state", "In progress", "Waiting for others", "Postposed" };
+			ImGui::Combo("Current Progression State", &newTask.progressionState, progressionItems, IM_ARRAYSIZE(progressionItems));
+			ImGui::NewLine();
+
+		}
+
+		ImGui::TreePop();
 
 	}
 
 }
 
-
-void FUTA::ComposeTaskDate(std::string& startDate, std::string& endDate, int startDay, int startMonth, int startYear, int endDay, int endMonth, int endYear) {
-
-	if (startDay < 10) { startDate = "0" + std::to_string(startDay); } else { startDate = std::to_string(startDay); }
-	if (startMonth < 10) { startDate += "0" + std::to_string(startMonth); } else { startDate += std::to_string(startMonth); }
-	if (startYear < 1000) { startDate += "000" + std::to_string(startYear); } else { startDate += std::to_string(startYear); }
-	
-	if (endDay < 10) { endDate = "0" + std::to_string(endDay); } else { endDate = std::to_string(endDay); }
-	if (endMonth < 10) { endDate += "0" + std::to_string(endMonth); } else { endDate += std::to_string(endMonth); }
-	if (endYear < 1000) { endDate += "000" + std::to_string(endYear); } else { endDate += std::to_string(endYear); }
-
-}
-
-
-std::string FUTA::ConstructItemName(std::string itemName, double id) { return "##" + itemName + std::to_string(id); }
-
-
-void FUTA::AddSeparator() { ImGui::NewLine(); ImGui::Separator(); ImGui::NewLine(); }
-void FUTA::AddTabulation() { ImGui::NewLine(); ImGui::Text("\t"); ImGui::SameLine(); }
-void FUTA::AddSpacedText(std::string text) { ImGui::SameLine(); ImGui::Text(("\t" + text).c_str()); ImGui::SameLine(); }
 
 #pragma endregion
 

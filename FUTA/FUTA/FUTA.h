@@ -23,6 +23,9 @@ private:
 	void DrawTaskList();
 
 	void DrawTask(Tasks& task);
+	void DrawBasicTaskData(Tasks& task);
+	void DrawDates(Tasks& task);
+	void DrawSubtasks(Tasks& tasks);
 	std::string ConstructItemName(std::string itemName, double id);
 	void ComposeFUTADate(std::string startDate, std::string endDate, int& startDay, int& startMonth, int& startYear, int& endDay, int& endMonth, int& endYear);
 	void ComposeTaskDate(std::string& startDate, std::string& endDate, int startDay, int startMonth, int startYear, int endDay, int endMonth, int endYear);

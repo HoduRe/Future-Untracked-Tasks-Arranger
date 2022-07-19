@@ -4,22 +4,6 @@
 #include <string>
 #include <vector>
 
-class Subtasks {
-
-public:
-
-	Subtasks();
-	~Subtasks();
-
-	bool started;
-	bool completed;
-
-	int progressionState;
-	int effort;
-
-};
-
-
 class Tasks {
 
 public:
@@ -41,8 +25,10 @@ public:
 	std::string initialDate;
 	std::string finalDate;
 
-	std::vector<Subtasks> subtaskList;
+	std::vector<Tasks> subtaskList;
 
 };
+
+double GenerateID();
 
 #endif
