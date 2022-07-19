@@ -2,8 +2,7 @@
 #define FUTA_H_
 
 #include <vector>
-
-class Tasks;
+#include "Tasks.h"
 
 class FUTA {
 
@@ -26,9 +25,14 @@ private:
 	void DrawTask(Tasks& task);
 
 
+	void AddSeparator();
+	void AddTabulation();
+	void AddSpacedText(std::string text);
+	std::string ConstructItemName(std::string itemName, std::string taskName, int id);
+
 	bool FUTAmenu;
 	bool drawNewTask;
-	Tasks* provisionalNewTask;
+	Tasks provisionalNewTask;
 	std::vector<Tasks> taskList;
 
 };

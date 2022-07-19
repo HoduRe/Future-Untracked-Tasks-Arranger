@@ -1,8 +1,7 @@
 #include "imgui.h"
 #include "FUTA.h"
-#include "Tasks.h"
 
-FUTA::FUTA() : FUTAmenu(true), drawNewTask(false), provisionalNewTask(nullptr) {}
+FUTA::FUTA() : FUTAmenu(true), drawNewTask(false), provisionalNewTask() {}
 
 FUTA::~FUTA() {}
 
@@ -17,7 +16,7 @@ void FUTA::Update(int screenWidth, int screenHeight) {
 
 	ImGuiTreeNodeFlags headerFlags = ImGuiTreeNodeFlags_DefaultOpen;
 
-	if (ImGui::CollapsingHeader("FUTA options")) { DrawOptions(); }
+	if (ImGui::CollapsingHeader("FUTA preferences")) { DrawOptions(); }
 	if (ImGui::CollapsingHeader("FUTA tasks", headerFlags)) { DrawTaskList(); }
 
 	//////// ------------------------------------------------------
@@ -45,25 +44,21 @@ void FUTA::DrawAddNewTask() {
 	if (ImGui::Button("+")) {
 
 		drawNewTask = true;
-		Tasks newTask;
-		provisionalNewTask = &newTask;
+		provisionalNewTask = Tasks();
 
 	}
 
-	if (drawNewTask && provisionalNewTask != nullptr) {
+	if (drawNewTask) {
 
-		DrawTask(*provisionalNewTask);
+		DrawTask(provisionalNewTask);
 		if (ImGui::Button("Add new task")) {
 
-			taskList.push_back(*provisionalNewTask);
+			taskList.push_back(provisionalNewTask);
 			drawNewTask = false;
-			provisionalNewTask = nullptr;
 
 		}
 
 	}
-
-	else if (drawNewTask) { ImGui::Text("Error adding new task. Press '+' to fix it.\n"); }
 
 }
 
@@ -75,13 +70,51 @@ void FUTA::DrawAddNewTask() {
 
 void FUTA::DrawTaskList() {
 
+	for (int i = 0; i < taskList.size(); i++) { DrawTask(taskList[i]); }
+
 }
 
 
 void FUTA::DrawTask(Tasks& task) {
 
+	AddSeparator();
+
+	// Add indicator if there are dependencies (since we use string for name, we can have a list for that? Just ommit yourself in the listing, and order them by name)
+	ImGui::Text(task.name.c_str());
+	AddSpacedText("Started");
+	ImGui::Checkbox(ConstructItemName("started", task.name, task.taskID).c_str(), &task.started);
+	AddSpacedText("Completed");
+	ImGui::Checkbox(ConstructItemName("completed", task.name, task.taskID).c_str(), &task.completed);
+	AddSpacedText("\t");
+	if (ImGui::Button("Delete task")) { /*TODO THIS*/ }
+
+	AddTabulation();
+	ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.25);
+	const char* progressionItems[] = { "No state", "In progress", "Waiting for others", "Postposed" };
+	ImGui::Combo("Current Progression State", &task.progressionState, progressionItems, IM_ARRAYSIZE(progressionItems));
+
+	AddTabulation();
+	ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.25);
+	const char* effortItems[] = { "No type", "Mindless", "Minimal focus", "Maximum focus" };
+	ImGui::Combo("Effort Type", &task.effort, effortItems, IM_ARRAYSIZE(effortItems));
+
+	AddTabulation();
+	AddSpacedText("Deadline");
+	ImGui::Checkbox("##deadline", &task.deadline);
+
+	AddTabulation();
+	ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.1);
+	ImGui::InputInt("Importance", &task.importance);
+
+	AddSeparator();
+
 }
 
+
+void FUTA::AddSeparator() { ImGui::NewLine(); ImGui::Separator(); ImGui::NewLine(); }
+void FUTA::AddTabulation() { ImGui::NewLine(); ImGui::Text("\t"); ImGui::SameLine(); }
+void FUTA::AddSpacedText(std::string text) { ImGui::SameLine(); ImGui::Text(("\t" + text).c_str()); ImGui::SameLine(); }
+std::string FUTA::ConstructItemName(std::string itemName, std::string taskName, int id) { return "##" + itemName + taskName + std::to_string(id); }
 
 #pragma endregion
 
