@@ -1,7 +1,14 @@
 #include "imgui.h"
 #include "FUTA.h"
+#include <time.h>
 
-FUTA::FUTA() : FUTAmenu(true), toDeleteID(0), screenWidth(0), screenHeight(0) {}
+FUTA::FUTA() : FUTAmenu(true), toDeleteID(0), screenWidth(0), screenHeight(0) {
+
+	time_t t = time(NULL);
+	struct tm tm = *localtime(&t);
+	currentYear = tm.tm_year + 1900;
+
+}
 
 FUTA::~FUTA() {}
 
@@ -45,10 +52,8 @@ void FUTA::DrawOptions() {
 
 void FUTA::DrawTaskList() {
 
-	ImGui::Text("Create new task");
-	ImGui::SameLine();
-
-	if (ImGui::Button("+")) { taskList.emplace(taskList.begin(), Tasks()); }
+	ImGui::Text("Create new task"); ImGui::SameLine();
+	if (ImGui::Button("+")) { taskList.emplace(taskList.begin(), Tasks()); } ImGui::SameLine();
 	for (int i = 0; i < taskList.size(); i++) { DrawTask(taskList[i]); }
 
 }
@@ -61,28 +66,34 @@ void FUTA::DrawTask(Tasks& task) {
 	ImGui::NewLine();
 	DrawBasicTaskData(task, nullptr);
 	ImGui::NewLine();
-	DrawProgressState(task);
-	DrawEffortType(task);
-	DrawDates(task);
 
-	AddTabulation();
-	ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.1);
-	ImGui::InputInt(("Importance" + ConstructItemName("importance", task.taskID)).c_str(), &task.importance);
+	if (ImGui::TreeNode(("Task data" + ConstructItemName("taskData", task.taskID)).c_str())) {
 
-	AddTabulation();
-	if (ImGui::TreeNode(("Task description" + ConstructItemName("taskDescription", task.taskID)).c_str())) {
+		DrawProgressState(task);
+		DrawEffortType(task);
+
+		AddSpacedText("");
+		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.08);
+		ImGui::InputInt(("Importance" + ConstructItemName("importance", task.taskID)).c_str(), &task.importance);
+
+		DrawDates(task);
 
 		AddTabulation();
-		ImGuiInputTextFlags descriptionFlags = ImGuiInputTextFlags_NoHorizontalScroll;
-		ImVec2 descriptionBoxSize = ImVec2(ImGui::GetWindowWidth() * 0.8, ImGui::GetWindowHeight() * 0.1);
-		ImGui::InputTextMultiline(ConstructItemName("description", task.taskID).c_str(), (char*)task.description, IM_ARRAYSIZE(task.description), descriptionBoxSize, descriptionFlags);
+		if (ImGui::TreeNode(("Task description" + ConstructItemName("taskDescription", task.taskID)).c_str())) {
+
+			AddTabulation();
+			ImGuiInputTextFlags descriptionFlags = ImGuiInputTextFlags_NoHorizontalScroll;
+			ImVec2 descriptionBoxSize = ImVec2(ImGui::GetWindowWidth() * 0.8, ImGui::GetWindowHeight() * 0.1);
+			ImGui::InputTextMultiline(ConstructItemName("description", task.taskID).c_str(), (char*)task.description, IM_ARRAYSIZE(task.description), descriptionBoxSize, descriptionFlags);
+			ImGui::TreePop();
+
+		}
+
+		DrawSubtasks(task);
+
 		ImGui::TreePop();
 
 	}
-
-	DrawSubtasks(task);
-
-	AddSeparator();
 
 }
 
@@ -129,8 +140,8 @@ void FUTA::DrawProgressState(Tasks& task) {
 
 void FUTA::DrawEffortType(Tasks& task) {
 
-	AddTabulation();
-	ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.25);
+	AddSpacedText("");
+	ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.15);
 	const char* effortItems[] = { "No type", "Mindless", "Minimal focus", "Maximum focus" };
 	ImGui::Combo(("Effort Type" + ConstructItemName("effortType", task.taskID)).c_str(), &task.effort, effortItems, IM_ARRAYSIZE(effortItems));
 
@@ -140,8 +151,8 @@ void FUTA::DrawEffortType(Tasks& task) {
 void FUTA::DrawDates(Tasks& task) {
 
 	AddTabulation();
-	int startDay = 18; int startMonth = 7; int startYear = 2022;
-	int endDay = 25; int endMonth = 7; int endYear = 2022;
+	int startDay = 0; int startMonth = 0; int startYear = currentYear;
+	int endDay = 0; int endMonth = 0; int endYear = currentYear;
 
 	ComposeFUTADate(task.initialDate, task.finalDate, startDay, startMonth, startYear, endDay, endMonth, endYear);
 	ImGui::Text("Starting Date (D-M-Y)"); ImGui::SameLine(); ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.1);

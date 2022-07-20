@@ -44,7 +44,7 @@ private:
 	Tasks LoadTaskData(pugi::xml_node node);
 	void DeleteTask();
 
-	int screenWidth, screenHeight;
+	int screenWidth, screenHeight, currentYear;
 	double toDeleteID;
 	bool FUTAmenu;
 	std::vector<Tasks> taskList;
