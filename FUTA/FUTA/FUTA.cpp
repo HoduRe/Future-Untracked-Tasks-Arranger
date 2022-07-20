@@ -83,10 +83,18 @@ void FUTA::DrawTaskList() {
 
 	}
 
+	ImGui::SameLine(); AddSpacedText("");
+	if (DrawAllDeletePopUp()) {
+		for (int i = 0; i < taskList.size();) {
+			if (taskList[i].completed) { taskList.erase(taskList.begin() + i); }
+			else { i++; }
+		}
+	}
+
 	ImGui::SameLine();
 
 	for (int i = 0; i < taskList.size(); i++) {
-		
+
 		bool draw = true;
 		if (filterOptions.onlyDeadlines && taskList[i].deadline == false) { draw = false; }
 		if (filterOptions.onlyProgressible && (taskList[i].progressionState == 0 || taskList[i].progressionState == 1) == false) { draw = false; }
@@ -96,7 +104,7 @@ void FUTA::DrawTaskList() {
 		if (filterOptions.onlyMinimalFocus && taskList[i].effort == 2) { draw = false; }
 		if (filterOptions.onlyMaximumFocus && taskList[i].effort == 3) { draw = false; }
 		if (draw) { DrawTask(taskList[i]); }
-	
+
 	}
 
 }
@@ -258,6 +266,26 @@ bool FUTA::DrawDeletePopUp(double taskID) {
 
 	if (ImGui::Button(("Delete task" + nameID).c_str())) { ImGui::OpenPopup(("Deletion menu" + nameID).c_str()); }
 	if (ImGui::BeginPopup(("Deletion menu" + nameID).c_str())) {
+
+		ImGui::Text("Are you sure?");
+		ImGui::Separator();
+		for (int i = 0; i < IM_ARRAYSIZE(options); i++) { if (ImGui::Selectable(options[i])) { selectedOption = i; } }
+		ImGui::EndPopup();
+
+	}
+
+	if (selectedOption == 0) { return true; }
+	return false;
+
+}
+
+bool FUTA::DrawAllDeletePopUp() {
+
+	int selectedOption = -1;
+	const char* options[] = { "Yes", "No" };
+
+	if (ImGui::Button("Delete all completed tasks")) { ImGui::OpenPopup("All deletion menu"); }
+	if (ImGui::BeginPopup("All deletion menu")) {
 
 		ImGui::Text("Are you sure?");
 		ImGui::Separator();

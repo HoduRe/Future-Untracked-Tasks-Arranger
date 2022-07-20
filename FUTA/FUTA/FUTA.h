@@ -35,9 +35,7 @@ private:
 
 	void DrawOptions();
 
-
 	void DrawTaskList();
-
 	void DrawTask(Tasks& task);
 	void DrawBasicTaskData(Tasks& task, Tasks* parentTask = nullptr);
 	void DrawProgressState(Tasks& task);
@@ -45,6 +43,7 @@ private:
 	void DrawDates(Tasks& task);
 	void DrawSubtasks(Tasks& task);
 	bool DrawDeletePopUp(double taskID);
+	bool DrawAllDeletePopUp();
 
 	void DrawColoredButton(bool& condition, std::string buttonName);
 	std::string ConstructItemName(std::string itemName, double id);
