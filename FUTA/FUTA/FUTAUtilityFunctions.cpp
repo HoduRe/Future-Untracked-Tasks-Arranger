@@ -1,5 +1,6 @@
 #include "imgui.h"
 #include "FUTA.h"
+#include <algorithm>
 
 #define FUTA_DATA_FILE_NAME "FUTAPlanning.txt"
 #define FUTA_FILTER_FILE_NAME "FUTAFilter.txt"
@@ -164,21 +165,29 @@ void FUTA::ComposeFUTADate(std::string startDate, std::string endDate, int& star
 }
 
 
+void ComposeDateSet(std::string& date, int day, int month, int year) {
+
+	if (day < 0) { day = 0; }
+	if (month < 0) { month = 0; }
+	if (year < 0) { year = 0; }
+
+	if (day > 31) { day = 31; }
+	if (month > 12) { month = 12; }
+	if (year > 9999) { year = 9999; }
+
+	if (day < 10) { date = "0" + std::to_string(day); }
+	else { date = std::to_string(day); }
+	if (month < 10) { date += "0" + std::to_string(month); }
+	else { date += std::to_string(month); }
+	if (year < 1000) { date += "000" + std::to_string(year); }
+	else { date += std::to_string(year); }
+
+}
+
 void FUTA::ComposeTaskDate(std::string& startDate, std::string& endDate, int startDay, int startMonth, int startYear, int endDay, int endMonth, int endYear) {
 
-	if (startDay < 10) { startDate = "0" + std::to_string(startDay); }
-	else { startDate = std::to_string(startDay); }
-	if (startMonth < 10) { startDate += "0" + std::to_string(startMonth); }
-	else { startDate += std::to_string(startMonth); }
-	if (startYear < 1000) { startDate += "000" + std::to_string(startYear); }
-	else { startDate += std::to_string(startYear); }
-
-	if (endDay < 10) { endDate = "0" + std::to_string(endDay); }
-	else { endDate = std::to_string(endDay); }
-	if (endMonth < 10) { endDate += "0" + std::to_string(endMonth); }
-	else { endDate += std::to_string(endMonth); }
-	if (endYear < 1000) { endDate += "000" + std::to_string(endYear); }
-	else { endDate += std::to_string(endYear); }
+	ComposeDateSet(startDate, startDay, startMonth, startYear);
+	ComposeDateSet(endDate, endDay, endMonth, endYear);
 
 }
 
@@ -213,3 +222,54 @@ void FUTA::DrawColoredButton(bool& condition, std::string buttonName) {
 void FUTA::AddSeparator() { ImGui::NewLine(); ImGui::Separator(); ImGui::NewLine(); }
 void FUTA::AddTabulation() { ImGui::NewLine(); ImGui::Text("\t"); ImGui::SameLine(); }
 void FUTA::AddSpacedText(std::string text) { ImGui::SameLine(); ImGui::Text(("\t" + text).c_str()); ImGui::SameLine(); }
+
+
+bool ReorderByName(Tasks& taskA, Tasks& taskB) {
+
+	char auxA = taskA.name[0];
+	char auxB = taskB.name[0];
+
+	if (auxA >= 97 && auxA <= 122) { auxA -= 32; }
+	if (auxB >= 97 && auxB <= 122) { auxB -= 32; }
+
+	return auxA < auxB;
+
+}
+
+std::string ComposeReverseDate(std::string& originalString) {
+
+	std::string auxString = originalString.substr(4, originalString.size() - 1);
+	auxString += originalString.substr(2, 2);
+	auxString += originalString.substr(0, 2);
+	return auxString;
+}
+
+bool ReorderByStartingDate(Tasks& taskA, Tasks& taskB) {
+
+	std::string auxA = ComposeReverseDate(taskA.initialDate);
+	std::string auxB = ComposeReverseDate(taskB.initialDate);
+
+	return std::stoi(auxA) < std::stoi(auxB);
+
+}
+
+
+bool ReorderByImportance(Tasks& taskA, Tasks& taskB) { return taskA.importance < taskB.importance; }
+
+
+void FUTA::ReorderTaskVector() {
+
+	switch (filterOptions.orderType) {
+
+	case 0: std::sort(taskList.begin(), taskList.end(), ReorderByName); break;
+	case 1: std::sort(taskList.begin(), taskList.end(), ReorderByStartingDate); break;
+	case 2: std::sort(taskList.begin(), taskList.end(), ReorderByImportance); break;
+
+	default: break;
+	}
+
+	reorderVector = false;
+
+}
+
+

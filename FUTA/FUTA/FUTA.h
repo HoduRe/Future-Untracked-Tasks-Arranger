@@ -61,9 +61,14 @@ private:
 	void LoadFilterData();
 	void DeleteTask();
 
+	void ReorderTaskVector();
+
 	int screenWidth, screenHeight, currentYear;
 	double toDeleteID;
 	bool FUTAmenu;
+
+	bool reorderVector;
+
 	std::vector<Tasks> taskList;
 	FUTAFilter filterOptions;
 

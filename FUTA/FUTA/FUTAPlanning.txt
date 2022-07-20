@@ -1,2 +1,4 @@
 <?xml version="1.0"?>
-<Task0 taskID="462200991.327735" name="ANewTask" importance="0" progressionState="0" effort="0" started="false" completed="false" deadline="false" description="" initialDate="00002022" finalDate="00002022" />
+<Task0 taskID="462200991.327735" name="La ironia" importance="1" progressionState="0" effort="0" started="false" completed="false" deadline="false" description="" initialDate="17032022" finalDate="05002022" />
+<Task1 taskID="1177987967.245888" name="Hahah" importance="7" progressionState="0" effort="0" started="false" completed="false" deadline="false" description="" initialDate="19032022" finalDate="02022024" />
+<Task2 taskID="1487492863.095721" name="És poderosa" importance="5" progressionState="0" effort="0" started="false" completed="false" deadline="false" description="" initialDate="10122022" finalDate="00002022" />

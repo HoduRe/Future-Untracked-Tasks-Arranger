@@ -5,7 +5,7 @@
 #include <vector>
 
 #define NAME_BUFFER 75
-#define DESCRIPTION_BUFFER 75
+#define DESCRIPTION_BUFFER 250
 
 class Tasks {
 

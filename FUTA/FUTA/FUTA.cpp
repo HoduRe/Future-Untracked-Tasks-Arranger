@@ -5,7 +5,7 @@
 FUTAFilter::FUTAFilter() : orderType(0), onlyDeadlines(false), onlyProgressible(false), onlyStarted(false), onlyNonCompleted(true), onlyMindless(false),
 onlyMinimalFocus(false), onlyMaximumFocus(false) {}
 
-FUTA::FUTA() : FUTAmenu(true), toDeleteID(0), screenWidth(0), screenHeight(0), filterOptions() {
+FUTA::FUTA() : FUTAmenu(true), toDeleteID(0), screenWidth(0), screenHeight(0), filterOptions(), reorderVector(false) {
 
 	time_t t = time(NULL);
 	struct tm tm = *localtime(&t);
@@ -34,6 +34,8 @@ void FUTA::Update(int _screenWidth, int _screenHeight) {
 
 	//////// ------------------------------------------------------
 
+	if (reorderVector) { ReorderTaskVector(); }
+
 	DeleteTask();
 	ImGui::End();
 
@@ -49,7 +51,7 @@ void FUTA::DrawOptions() {
 	AddTabulation(); AddSpacedText("");
 	ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.25);
 	const char* filterItems[] = { "By name", "By starting date", "By importance" };
-	ImGui::Combo("Task order", &filterOptions.orderType, filterItems, IM_ARRAYSIZE(filterItems));
+	if (ImGui::Combo("Task order", &filterOptions.orderType, filterItems, IM_ARRAYSIZE(filterItems))) { reorderVector = true; }
 
 	AddTabulation();
 	ImGui::Text("Select filter discarding options:");
@@ -61,7 +63,7 @@ void FUTA::DrawOptions() {
 	ImGui::Checkbox("Mindless focus", &filterOptions.onlyMindless); AddSpacedText("");
 	ImGui::Checkbox("Minimal focus", &filterOptions.onlyMinimalFocus); AddSpacedText("");
 	ImGui::Checkbox("Maximum focus", &filterOptions.onlyMaximumFocus); ImGui::NewLine();
-	
+
 }
 
 #pragma endregion
@@ -72,7 +74,15 @@ void FUTA::DrawOptions() {
 void FUTA::DrawTaskList() {
 
 	ImGui::Text("Create new task"); ImGui::SameLine();
-	if (ImGui::Button("+")) { taskList.emplace(taskList.begin(), Tasks()); } ImGui::SameLine();
+	if (ImGui::Button("+")) {
+
+		taskList.push_back(Tasks());
+		reorderVector = true;
+
+	}
+
+	ImGui::SameLine();
+
 	for (int i = 0; i < taskList.size(); i++) { DrawTask(taskList[i]); }
 
 }
@@ -119,8 +129,10 @@ void FUTA::DrawTask(Tasks& task) {
 
 void FUTA::DrawBasicTaskData(Tasks& task, Tasks* parentTask) {
 
+	ImGuiInputTextFlags inputTextFlags = ImGuiInputTextFlags_EnterReturnsTrue;
 	ImGui::SameLine(); ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.5);
-	ImGui::InputText(ConstructItemName("name", task.taskID).c_str(), (char*)task.name, IM_ARRAYSIZE(task.name));
+	if (ImGui::InputText(ConstructItemName("name", task.taskID).c_str(), (char*)task.name, IM_ARRAYSIZE(task.name), inputTextFlags)) { reorderVector = true; }
+	if (ImGui::IsItemDeactivatedAfterEdit()) { reorderVector = true; }
 	AddSpacedText("Started");
 	DrawColoredButton(task.started, ConstructItemName("started", task.taskID));
 	AddSpacedText("Completed");
@@ -172,6 +184,7 @@ void FUTA::DrawDates(Tasks& task) {
 	AddTabulation();
 	int startDay = 0; int startMonth = 0; int startYear = currentYear;
 	int endDay = 0; int endMonth = 0; int endYear = currentYear;
+	std::string initialDateAux = task.initialDate; // Seems awkward, but ImGui does weird things when I try to handle the focus checks, so yeah
 
 	ComposeFUTADate(task.initialDate, task.finalDate, startDay, startMonth, startYear, endDay, endMonth, endYear);
 	ImGui::Text("Starting Date (D-M-Y)"); ImGui::SameLine(); ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.1);
@@ -180,6 +193,10 @@ void FUTA::DrawDates(Tasks& task) {
 	ImGui::InputInt(ConstructItemName("startMonth", task.taskID).c_str(), &startMonth); ImGui::SameLine(); ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.1);
 	ImGui::InputInt(ConstructItemName("startYear", task.taskID).c_str(), &startYear); AddTabulation();
 
+	if (startMonth == 320) {
+		int a = 0;
+	}
+
 	ImGui::Text("Ending Date (D-M-Y)"); ImGui::SameLine(); ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.1);
 
 	ImGui::InputInt(ConstructItemName("endDay", task.taskID).c_str(), &endDay); ImGui::SameLine(); ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.1);
@@ -187,6 +204,8 @@ void FUTA::DrawDates(Tasks& task) {
 	ImGui::InputInt(ConstructItemName("endYear", task.taskID).c_str(), &endYear); ImGui::SameLine();
 
 	ComposeTaskDate(task.initialDate, task.finalDate, startDay, startMonth, startYear, endDay, endMonth, endYear);
+	if (initialDateAux != task.initialDate) { reorderVector = true; }
+
 	AddSpacedText("Deadline");
 	ImGui::Checkbox(ConstructItemName("deadline", task.taskID).c_str(), &task.deadline);
 
