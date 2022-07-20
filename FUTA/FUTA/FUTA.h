@@ -11,7 +11,7 @@ public:
 	FUTA();
 	~FUTA();
 
-	void Update(int screenWidth, int screenHeight);
+	void Update(int _screenWidth, int _screenHeight);
 
 private:
 
@@ -22,19 +22,25 @@ private:
 
 	void DrawTaskList();
 
-	void DrawTask(Tasks& task);
-	void DrawBasicTaskData(Tasks& task);
+	void DrawTask(Tasks& task, bool isNewTask = false);
+	void DrawBasicTaskData(Tasks& task, Tasks* parentTask = nullptr, bool isNewTask = false);
 	void DrawDates(Tasks& task);
-	void DrawSubtasks(Tasks& tasks);
+	void DrawSubtasks(Tasks& task);
+	bool DrawDeletePopUp(double taskID);
+
+	void DrawColoredButton(bool& condition, std::string buttonName);
 	std::string ConstructItemName(std::string itemName, double id);
 	void ComposeFUTADate(std::string startDate, std::string endDate, int& startDay, int& startMonth, int& startYear, int& endDay, int& endMonth, int& endYear);
 	void ComposeTaskDate(std::string& startDate, std::string& endDate, int startDay, int startMonth, int startYear, int endDay, int endMonth, int endYear);
-
 
 	void AddSeparator();
 	void AddTabulation();
 	void AddSpacedText(std::string text);
 
+	void DeleteTask();
+
+	int screenWidth, screenHeight;
+	double toDeleteID;
 	bool FUTAmenu;
 	bool drawNewTask;
 	Tasks provisionalNewTask;

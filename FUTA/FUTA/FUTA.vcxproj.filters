@@ -65,12 +65,6 @@
     <ClInclude Include="imstb_truetype.h">
       <Filter>FUTA dependencies</Filter>
     </ClInclude>
-    <ClInclude Include="MemLeaks.h">
-      <Filter>FUTA dependencies</Filter>
-    </ClInclude>
-    <ClInclude Include="PathNode.h">
-      <Filter>FUTA dependencies</Filter>
-    </ClInclude>
     <ClInclude Include="FUTA.h">
       <Filter>FUTA</Filter>
     </ClInclude>

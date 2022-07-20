@@ -1,6 +1,27 @@
 #include "imgui.h"
 #include "FUTA.h"
 
+void FUTA::DeleteTask() {
+
+	if (toDeleteID != 0) {
+
+		for (int i = 0; i < taskList.size(); i++) {
+
+			if (taskList[i].taskID == toDeleteID) {
+
+				taskList.erase(taskList.begin() + i);
+				i = taskList.size();
+
+			}
+
+		}
+	}
+
+	toDeleteID = 0;
+
+}
+
+
 void FUTA::ComposeFUTADate(std::string startDate, std::string endDate, int& startDay, int& startMonth, int& startYear, int& endDay, int& endMonth, int& endYear) {
 
 	if (startDate.size() >= 8) {
@@ -42,6 +63,30 @@ void FUTA::ComposeTaskDate(std::string& startDate, std::string& endDate, int sta
 
 
 std::string FUTA::ConstructItemName(std::string itemName, double id) { return "##" + itemName + std::to_string(id); }
+
+
+void FUTA::DrawColoredButton(bool& condition, std::string buttonName) {
+
+	if (condition) {
+
+		ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::ImColor(0.0f, 1.0f, 0.0f));
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::ImColor(0.5f, 1.0f, 0.5f));
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::ImColor(0.5f, 1.0f, 0.5f));
+
+	}
+
+	else if (!condition) {
+
+		ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::ImColor(1.0f, 0.0f, 0.0f));
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::ImColor(1.0f, 0.5f, 0.5f));
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::ImColor(1.0f, 0.5f, 0.5f));
+
+	}
+
+	if (ImGui::Button(buttonName.c_str(), ImVec2(20, 20))) { condition = !condition; }
+	ImGui::PopStyleColor(3);
+
+}
 
 
 void FUTA::AddSeparator() { ImGui::NewLine(); ImGui::Separator(); ImGui::NewLine(); }

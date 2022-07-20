@@ -3,7 +3,7 @@
 
 double GenerateID() {
 
-	time_t t = time(NULL); // 1. Is this a seed thing. 2. Fix the time conversions
+	time_t t = time(NULL); // TODO: We don't account for under seconds. GetTicks?
 	struct tm tm = *localtime(&t);
 	double dayTimeComposition = (float)tm.tm_sec / (60.0 * 60.0 * 24.0) + (float)tm.tm_min / (60.0 * 24.0) + (float)tm.tm_hour / 24.0;
 	std::string dataID = std::to_string(tm.tm_yday) + std::to_string(tm.tm_year - 100);
