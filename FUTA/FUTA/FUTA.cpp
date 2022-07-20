@@ -1,7 +1,7 @@
 #include "imgui.h"
 #include "FUTA.h"
 
-FUTA::FUTA() : FUTAmenu(true), drawNewTask(false), provisionalNewTask(), toDeleteID(0), screenWidth(0), screenHeight(0) {}
+FUTA::FUTA() : FUTAmenu(true), toDeleteID(0), screenWidth(0), screenHeight(0) {}
 
 FUTA::~FUTA() {}
 
@@ -35,54 +35,31 @@ void FUTA::Update(int _screenWidth, int _screenHeight) {
 void FUTA::DrawOptions() {
 
 
-	DrawAddNewTask();
 
 }
-
-
-void FUTA::DrawAddNewTask() {
-
-	ImGui::Text("Create new task");
-	ImGui::SameLine();
-
-	if (ImGui::Button("+")) {
-
-		drawNewTask = true;
-		provisionalNewTask = Tasks();
-
-	}
-
-	if (drawNewTask) {
-
-		DrawTask(provisionalNewTask, true);
-		ImGui::Text("\t"); ImGui::SameLine();
-		if (ImGui::Button("Add new task")) {
-
-			taskList.push_back(provisionalNewTask);
-			drawNewTask = false;
-
-		}
-		ImGui::NewLine();
-
-	}
-
-}
-
 
 #pragma endregion
 
 
 #pragma region DRAW_TASK_LIST
 
-void FUTA::DrawTaskList() { for (int i = 0; i < taskList.size(); i++) { DrawTask(taskList[i]); } }
+void FUTA::DrawTaskList() {
+
+	ImGui::Text("Create new task");
+	ImGui::SameLine();
+
+	if (ImGui::Button("+")) { taskList.emplace(taskList.begin(), Tasks()); }
+	for (int i = 0; i < taskList.size(); i++) { DrawTask(taskList[i]); }
+
+}
 
 
-void FUTA::DrawTask(Tasks& task, bool isNewTask) {
+void FUTA::DrawTask(Tasks& task) {
 
 	AddSeparator();
 
 	ImGui::NewLine();
-	DrawBasicTaskData(task, nullptr, isNewTask);
+	DrawBasicTaskData(task, nullptr);
 	ImGui::NewLine();
 	DrawProgressState(task);
 	DrawEffortType(task);
@@ -98,7 +75,7 @@ void FUTA::DrawTask(Tasks& task, bool isNewTask) {
 		AddTabulation();
 		ImGuiInputTextFlags descriptionFlags = ImGuiInputTextFlags_NoHorizontalScroll;
 		ImVec2 descriptionBoxSize = ImVec2(ImGui::GetWindowWidth() * 0.8, ImGui::GetWindowHeight() * 0.1);
-		ImGui::InputTextMultiline(ConstructItemName("description", task.taskID).c_str(), (char*)task.description.c_str(), task.description.capacity(), descriptionBoxSize, descriptionFlags);
+		ImGui::InputTextMultiline(ConstructItemName("description", task.taskID).c_str(), (char*)task.description, IM_ARRAYSIZE(task.description), descriptionBoxSize, descriptionFlags);
 		ImGui::TreePop();
 
 	}
@@ -110,17 +87,17 @@ void FUTA::DrawTask(Tasks& task, bool isNewTask) {
 }
 
 
-void FUTA::DrawBasicTaskData(Tasks& task, Tasks* parentTask, bool isNewTask) {
+void FUTA::DrawBasicTaskData(Tasks& task, Tasks* parentTask) {
 
 	ImGui::SameLine(); ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.5);
-	ImGui::InputText(ConstructItemName("name", task.taskID).c_str(), (char*)task.name.c_str(), task.name.capacity());
+	ImGui::InputText(ConstructItemName("name", task.taskID).c_str(), (char*)task.name, IM_ARRAYSIZE(task.name));
 	AddSpacedText("Started");
 	DrawColoredButton(task.started, ConstructItemName("started", task.taskID));
 	AddSpacedText("Completed");
 	DrawColoredButton(task.completed, ConstructItemName("completed", task.taskID));
 	AddSpacedText("\t");
 
-	if (isNewTask == false && DrawDeletePopUp(task.taskID)) {
+	if (DrawDeletePopUp(task.taskID)) {
 
 		if (parentTask == nullptr) { toDeleteID = task.taskID; return; }
 
@@ -141,7 +118,7 @@ void FUTA::DrawBasicTaskData(Tasks& task, Tasks* parentTask, bool isNewTask) {
 
 
 void FUTA::DrawProgressState(Tasks& task) {
-	
+
 	AddTabulation();
 	ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.25);
 	const char* progressionItems[] = { "No state", "In progress", "Waiting for another task", "Waiting for other people", "Postposed" };

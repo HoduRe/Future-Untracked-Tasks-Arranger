@@ -4,6 +4,9 @@
 #include <string>
 #include <vector>
 
+#define NAME_BUFFER 75
+#define DESCRIPTION_BUFFER 75
+
 class Tasks {
 
 public:
@@ -20,8 +23,8 @@ public:
 	bool completed;
 	bool deadline;
 
-	std::string name;
-	std::string description;
+	char name[NAME_BUFFER];
+	char description[DESCRIPTION_BUFFER];
 	std::string initialDate;
 	std::string finalDate;
 

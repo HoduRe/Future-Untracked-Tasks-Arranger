@@ -20,13 +20,11 @@ private:
 
 	void DrawOptions();
 
-	void DrawAddNewTask();
-
 
 	void DrawTaskList();
 
-	void DrawTask(Tasks& task, bool isNewTask = false);
-	void DrawBasicTaskData(Tasks& task, Tasks* parentTask = nullptr, bool isNewTask = false);
+	void DrawTask(Tasks& task);
+	void DrawBasicTaskData(Tasks& task, Tasks* parentTask = nullptr);
 	void DrawProgressState(Tasks& task);
 	void DrawEffortType(Tasks& task);
 	void DrawDates(Tasks& task);
@@ -49,8 +47,6 @@ private:
 	int screenWidth, screenHeight;
 	double toDeleteID;
 	bool FUTAmenu;
-	bool drawNewTask;
-	Tasks provisionalNewTask;
 	std::vector<Tasks> taskList;
 
 };
