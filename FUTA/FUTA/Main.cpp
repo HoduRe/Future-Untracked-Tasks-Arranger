@@ -80,11 +80,12 @@ void ImGuiStartFrame() {
 
 }
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
+
 	bool mainLoop = true;
 	int screenWidth, screenHeight;
 	FUTA futaApp;
+	futaApp.LoadData();
 
 	if (!InitScreen()) { return 1; }
 	while (mainLoop == true) {
@@ -92,10 +93,7 @@ int main(int argc, char** argv)
 		SDL_Event e;
 		while (SDL_PollEvent(&e)) {
 			ImGui_ImplSDL2_ProcessEvent(&e);
-			switch (e.type) {
-			case SDL_QUIT: mainLoop = false; break;
-			case SDL_WINDOWEVENT_RESIZED: SDL_GetWindowSize(window, &screenWidth, &screenHeight); break;
-			}
+			switch (e.type) { case SDL_QUIT: mainLoop = false; break; }
 		}
 
 		ImGuiStartFrame();
@@ -107,6 +105,8 @@ int main(int argc, char** argv)
 		RenderPostUpdate();
 
 	}
+
+	futaApp.SaveData();
 
 	SDL_GL_DeleteContext(context);
 	if (window != NULL) { SDL_DestroyWindow(window); }

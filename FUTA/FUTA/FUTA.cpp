@@ -55,12 +55,14 @@ void FUTA::DrawAddNewTask() {
 	if (drawNewTask) {
 
 		DrawTask(provisionalNewTask, true);
+		ImGui::Text("\t"); ImGui::SameLine();
 		if (ImGui::Button("Add new task")) {
 
 			taskList.push_back(provisionalNewTask);
 			drawNewTask = false;
 
 		}
+		ImGui::NewLine();
 
 	}
 

@@ -1,6 +1,78 @@
 #include "imgui.h"
 #include "FUTA.h"
 
+#define FUTA_FILE_NAME "FUTAPlanning.txt"
+
+void FUTA::SaveData() {
+
+	pugi::xml_document doc;
+
+	for (int taskIndex = 0; taskIndex < taskList.size(); taskIndex++) {
+		SaveTaskData(taskList[taskIndex], doc.append_child(std::to_string(taskList[taskIndex].taskID).c_str()));
+	}
+
+	doc.save_file(FUTA_FILE_NAME);
+
+}
+
+
+void FUTA::LoadData() {
+
+	pugi::xml_document doc;
+	pugi::xml_parse_result futaFile = doc.load_file(FUTA_FILE_NAME);
+
+	if (futaFile != NULL) {
+		for (pugi::xml_node taskNode = doc.first_child(); taskNode; taskNode = taskNode.next_sibling()) { taskList.push_back(LoadTaskData(taskNode)); }
+	}
+
+}
+
+
+void FUTA::SaveTaskData(Tasks& task, pugi::xml_node node) {
+
+	node.append_attribute("name") = task.name.c_str();
+	node.append_attribute("importance") = task.importance;
+	node.append_attribute("progressionState") = task.progressionState;
+	node.append_attribute("effort") = task.effort;
+	node.append_attribute("started") = task.started;
+	node.append_attribute("completed") = task.completed;
+	node.append_attribute("deadline") = task.deadline;
+	node.append_attribute("description") = task.description.c_str();
+	node.append_attribute("initialDate") = task.initialDate.c_str();
+	node.append_attribute("finalDate") = task.finalDate.c_str();
+
+	for (int subtaskIndex = 0; subtaskIndex < task.subtaskList.size(); subtaskIndex++) {
+
+		Tasks& subtask = task.subtaskList[subtaskIndex];
+		pugi::xml_node subtaskNode = node.append_child(std::to_string(subtask.taskID).c_str());
+		SaveTaskData(subtask, subtaskNode);
+
+	}
+
+}
+
+
+Tasks FUTA::LoadTaskData(pugi::xml_node node) {
+
+	Tasks newTask;
+	newTask.taskID = std::stod((std::string)node.name());
+	newTask.importance = node.attribute("importance").as_int();
+	newTask.progressionState = node.attribute("progressionState").as_int();
+	newTask.effort = node.attribute("effort").as_int();
+	newTask.started = node.attribute("started").as_bool();
+	newTask.completed = node.attribute("completed").as_bool();
+	newTask.deadline = node.attribute("deadline").as_bool();
+	newTask.description = node.attribute("description").as_string();
+	newTask.initialDate = node.attribute("initialDate").as_string();
+	newTask.finalDate = node.attribute("finalDate").as_string();
+
+	for (pugi::xml_node subtaskNode = node.first_child(); subtaskNode; subtaskNode = subtaskNode.next_sibling()) { newTask.subtaskList.push_back(LoadTaskData(subtaskNode)); }
+
+	return newTask;
+
+}
+
+
 void FUTA::DeleteTask() {
 
 	if (toDeleteID != 0) {

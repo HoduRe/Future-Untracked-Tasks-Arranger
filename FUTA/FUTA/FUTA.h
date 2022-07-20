@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "Tasks.h"
+#include "PugiXml/src/pugixml.hpp"
 
 class FUTA {
 
@@ -12,6 +13,8 @@ public:
 	~FUTA();
 
 	void Update(int _screenWidth, int _screenHeight);
+	void LoadData();
+	void SaveData();
 
 private:
 
@@ -39,6 +42,8 @@ private:
 	void AddTabulation();
 	void AddSpacedText(std::string text);
 
+	void SaveTaskData(Tasks& task, pugi::xml_node node);
+	Tasks LoadTaskData(pugi::xml_node node);
 	void DeleteTask();
 
 	int screenWidth, screenHeight;

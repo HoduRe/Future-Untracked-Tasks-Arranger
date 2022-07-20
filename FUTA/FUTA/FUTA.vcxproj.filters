@@ -4,11 +4,14 @@
     <Filter Include="FUTA">
       <UniqueIdentifier>{1db3013b-118b-4bb4-9566-4d6779417381}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FUTA dependencies">
-      <UniqueIdentifier>{5ce86936-8a45-41cb-8e3c-78177ed1fe8a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MathGeoLib">
       <UniqueIdentifier>{9096e573-78eb-40d3-9a2b-ef73bf439c9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui">
+      <UniqueIdentifier>{5ce86936-8a45-41cb-8e3c-78177ed1fe8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pugi">
+      <UniqueIdentifier>{86b654ed-3778-4d7d-8e2e-cc71ccc222da}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -16,22 +19,22 @@
       <Filter>FUTA</Filter>
     </ClCompile>
     <ClCompile Include="imgui.cpp">
-      <Filter>FUTA dependencies</Filter>
+      <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="imgui_demo.cpp">
-      <Filter>FUTA dependencies</Filter>
+      <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="imgui_draw.cpp">
-      <Filter>FUTA dependencies</Filter>
+      <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="imgui_impl_opengl3.cpp">
-      <Filter>FUTA dependencies</Filter>
+      <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="imgui_impl_sdl.cpp">
-      <Filter>FUTA dependencies</Filter>
+      <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="imgui_widgets.cpp">
-      <Filter>FUTA dependencies</Filter>
+      <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="FUTA.cpp">
       <Filter>FUTA</Filter>
@@ -150,31 +153,34 @@
     <ClCompile Include="MathGeoLib\src\Time\Clock.cpp">
       <Filter>MathGeoLib</Filter>
     </ClCompile>
+    <ClCompile Include="PugiXml\src\pugixml.cpp">
+      <Filter>Pugi</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imconfig.h">
-      <Filter>FUTA dependencies</Filter>
+      <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="imgui.h">
-      <Filter>FUTA dependencies</Filter>
+      <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="imgui_impl_opengl3.h">
-      <Filter>FUTA dependencies</Filter>
+      <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="imgui_impl_sdl.h">
-      <Filter>FUTA dependencies</Filter>
+      <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="imgui_internal.h">
-      <Filter>FUTA dependencies</Filter>
+      <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="imstb_rectpack.h">
-      <Filter>FUTA dependencies</Filter>
+      <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="imstb_textedit.h">
-      <Filter>FUTA dependencies</Filter>
+      <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="imstb_truetype.h">
-      <Filter>FUTA dependencies</Filter>
+      <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="FUTA.h">
       <Filter>FUTA</Filter>
@@ -373,6 +379,12 @@
     </ClInclude>
     <ClInclude Include="MathGeoLib\src\Time\Clock.h">
       <Filter>MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="PugiXml\src\pugiconfig.hpp">
+      <Filter>Pugi</Filter>
+    </ClInclude>
+    <ClInclude Include="PugiXml\src\pugixml.hpp">
+      <Filter>Pugi</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
