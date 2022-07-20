@@ -29,7 +29,7 @@ void FUTA::Update(int _screenWidth, int _screenHeight) {
 
 	ImGuiTreeNodeFlags headerFlags = ImGuiTreeNodeFlags_DefaultOpen;
 
-	if (ImGui::CollapsingHeader("FUTA preferences")) { DrawOptions(); }
+	if (ImGui::CollapsingHeader("FUTA preferences", headerFlags)) { DrawOptions(); }
 	if (ImGui::CollapsingHeader("FUTA tasks", headerFlags)) { DrawTaskList(); }
 
 	//////// ------------------------------------------------------
@@ -47,19 +47,21 @@ void FUTA::Update(int _screenWidth, int _screenHeight) {
 void FUTA::DrawOptions() {
 
 	AddTabulation();
-	ImGui::Text("Select filter ordering options:");
+	ImGui::Text("Select ordering options:");
 	AddTabulation(); AddSpacedText("");
 	ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.25);
 	const char* filterItems[] = { "By name", "By starting date", "By importance" };
 	if (ImGui::Combo("Task order", &filterOptions.orderType, filterItems, IM_ARRAYSIZE(filterItems))) { reorderVector = true; }
 
 	AddTabulation();
-	ImGui::Text("Select filter discarding options:");
-	ImGui::NewLine(); AddSpacedText(""); AddSpacedText("");
+	ImGui::Text("Select filtering 'only x' options:"); AddSpacedText("");
 	ImGui::Checkbox("Deadlines", &filterOptions.onlyDeadlines); AddSpacedText("");
 	ImGui::Checkbox("Progressible", &filterOptions.onlyProgressible); AddSpacedText("");
 	ImGui::Checkbox("Started##Filter", &filterOptions.onlyStarted); AddSpacedText("");
-	ImGui::Checkbox("Non-Completed", &filterOptions.onlyNonCompleted); ImGui::NewLine(); AddSpacedText(""); AddSpacedText("");
+	ImGui::Checkbox("Non-Completed", &filterOptions.onlyNonCompleted);
+
+	AddTabulation();
+	ImGui::Text("Select filtering 'exclude x' options:"); AddSpacedText("");
 	ImGui::Checkbox("Mindless focus", &filterOptions.onlyMindless); AddSpacedText("");
 	ImGui::Checkbox("Minimal focus", &filterOptions.onlyMinimalFocus); AddSpacedText("");
 	ImGui::Checkbox("Maximum focus", &filterOptions.onlyMaximumFocus); ImGui::NewLine();
@@ -83,7 +85,19 @@ void FUTA::DrawTaskList() {
 
 	ImGui::SameLine();
 
-	for (int i = 0; i < taskList.size(); i++) { DrawTask(taskList[i]); }
+	for (int i = 0; i < taskList.size(); i++) {
+		
+		bool draw = true;
+		if (filterOptions.onlyDeadlines && taskList[i].deadline == false) { draw = false; }
+		if (filterOptions.onlyProgressible && (taskList[i].progressionState == 0 || taskList[i].progressionState == 1) == false) { draw = false; }
+		if (filterOptions.onlyStarted && taskList[i].started == false) { draw = false; }
+		if (filterOptions.onlyNonCompleted && taskList[i].completed) { draw = false; }
+		if (filterOptions.onlyMindless && taskList[i].effort == 1) { draw = false; }
+		if (filterOptions.onlyMinimalFocus && taskList[i].effort == 2) { draw = false; }
+		if (filterOptions.onlyMaximumFocus && taskList[i].effort == 3) { draw = false; }
+		if (draw) { DrawTask(taskList[i]); }
+	
+	}
 
 }
 
@@ -192,10 +206,6 @@ void FUTA::DrawDates(Tasks& task) {
 	ImGui::InputInt(ConstructItemName("startDay", task.taskID).c_str(), &startDay); ImGui::SameLine(); ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.1);
 	ImGui::InputInt(ConstructItemName("startMonth", task.taskID).c_str(), &startMonth); ImGui::SameLine(); ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.1);
 	ImGui::InputInt(ConstructItemName("startYear", task.taskID).c_str(), &startYear); AddTabulation();
-
-	if (startMonth == 320) {
-		int a = 0;
-	}
 
 	ImGui::Text("Ending Date (D-M-Y)"); ImGui::SameLine(); ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.1);
 

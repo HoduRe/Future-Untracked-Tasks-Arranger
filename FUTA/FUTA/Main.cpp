@@ -26,7 +26,7 @@ bool InitScreen() {
 	else {
 
 		Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;
-		window = SDL_CreateWindow("FUTA", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1024, 768, flags);
+		window = SDL_CreateWindow("FUTA", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1050, 900, flags);
 		if (window == NULL) { ret = false; }
 		else { screenSurface = SDL_GetWindowSurface(window); }
 
