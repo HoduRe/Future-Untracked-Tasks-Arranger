@@ -79,26 +79,19 @@ void FUTA::DrawTask(Tasks& task, bool isNewTask) {
 
 	AddSeparator();
 
+	ImGui::NewLine();
 	DrawBasicTaskData(task, nullptr, isNewTask);
-
-	AddTabulation();
-	ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.25);
-	const char* progressionItems[] = { "No state", "In progress", "Waiting for another task", "Waiting for other people", "Postposed" };
-	ImGui::Combo("Current Progression State", &task.progressionState, progressionItems, IM_ARRAYSIZE(progressionItems));
-
-	AddTabulation();
-	ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.25);
-	const char* effortItems[] = { "No type", "Mindless", "Minimal focus", "Maximum focus" };
-	ImGui::Combo("Effort Type", &task.effort, effortItems, IM_ARRAYSIZE(effortItems));
-
+	ImGui::NewLine();
+	DrawProgressState(task);
+	DrawEffortType(task);
 	DrawDates(task);
 
 	AddTabulation();
 	ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.1);
-	ImGui::InputInt("Importance", &task.importance);
+	ImGui::InputInt(("Importance" + ConstructItemName("importance", task.taskID)).c_str(), &task.importance);
 
 	AddTabulation();
-	if (ImGui::TreeNode("Task description")) {
+	if (ImGui::TreeNode(("Task description" + ConstructItemName("taskDescription", task.taskID)).c_str())) {
 
 		AddTabulation();
 		ImGuiInputTextFlags descriptionFlags = ImGuiInputTextFlags_NoHorizontalScroll;
@@ -145,6 +138,26 @@ void FUTA::DrawBasicTaskData(Tasks& task, Tasks* parentTask, bool isNewTask) {
 }
 
 
+void FUTA::DrawProgressState(Tasks& task) {
+	
+	AddTabulation();
+	ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.25);
+	const char* progressionItems[] = { "No state", "In progress", "Waiting for another task", "Waiting for other people", "Postposed" };
+	ImGui::Combo(("Current Progression State" + ConstructItemName("progressState", task.taskID)).c_str(), &task.progressionState, progressionItems, IM_ARRAYSIZE(progressionItems));
+
+}
+
+
+void FUTA::DrawEffortType(Tasks& task) {
+
+	AddTabulation();
+	ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.25);
+	const char* effortItems[] = { "No type", "Mindless", "Minimal focus", "Maximum focus" };
+	ImGui::Combo(("Effort Type" + ConstructItemName("effortType", task.taskID)).c_str(), &task.effort, effortItems, IM_ARRAYSIZE(effortItems));
+
+}
+
+
 void FUTA::DrawDates(Tasks& task) {
 
 	AddTabulation();
@@ -175,10 +188,10 @@ void FUTA::DrawSubtasks(Tasks& task) {
 
 	AddTabulation();
 
-	if (ImGui::TreeNode("Subtasks")) {
+	if (ImGui::TreeNode(("Subtasks" + ConstructItemName("subtasks", task.taskID)).c_str())) {
 
 		AddTabulation();
-		if (ImGui::Button("Add Subtask")) { task.subtaskList.push_back(Tasks()); }
+		if (ImGui::Button(("Add Subtasks" + ConstructItemName("addSubtasks", task.taskID)).c_str())) { task.subtaskList.push_back(Tasks()); }
 
 		for (int i = 0; i < task.subtaskList.size(); i++) {
 
@@ -186,11 +199,7 @@ void FUTA::DrawSubtasks(Tasks& task) {
 
 			AddTabulation();
 			DrawBasicTaskData(newTask, &task);
-
-			AddTabulation();
-			ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.25);
-			const char* progressionItems[] = { "No state", "In progress", "Waiting for others", "Postposed" };
-			ImGui::Combo("Current Progression State", &newTask.progressionState, progressionItems, IM_ARRAYSIZE(progressionItems));
+			DrawProgressState(newTask);
 			ImGui::NewLine();
 
 		}

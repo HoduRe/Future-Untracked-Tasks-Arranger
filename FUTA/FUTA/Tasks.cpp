@@ -1,13 +1,10 @@
 #include "Tasks.h"
-#include <time.h>
+#include "MathGeoLib/src/Algorithm/Random/LCG.h"
 
 double GenerateID() {
 
-	time_t t = time(NULL); // TODO: We don't account for under seconds. GetTicks?
-	struct tm tm = *localtime(&t);
-	double dayTimeComposition = (float)tm.tm_sec / (60.0 * 60.0 * 24.0) + (float)tm.tm_min / (60.0 * 24.0) + (float)tm.tm_hour / 24.0;
-	std::string dataID = std::to_string(tm.tm_yday) + std::to_string(tm.tm_year - 100);
-	return std::stof(dataID.c_str()) + dayTimeComposition;
+	LCG generatorID;
+	return ((float)generatorID.Int() - 1.0) + generatorID.Float();
 
 }
 

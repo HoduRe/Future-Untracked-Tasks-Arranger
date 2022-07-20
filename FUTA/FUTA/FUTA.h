@@ -24,6 +24,8 @@ private:
 
 	void DrawTask(Tasks& task, bool isNewTask = false);
 	void DrawBasicTaskData(Tasks& task, Tasks* parentTask = nullptr, bool isNewTask = false);
+	void DrawProgressState(Tasks& task);
+	void DrawEffortType(Tasks& task);
 	void DrawDates(Tasks& task);
 	void DrawSubtasks(Tasks& task);
 	bool DrawDeletePopUp(double taskID);
