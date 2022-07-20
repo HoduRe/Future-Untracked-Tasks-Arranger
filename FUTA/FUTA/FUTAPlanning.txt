@@ -1,2 +1,2 @@
 <?xml version="1.0"?>
-<Task0 taskID="1123644927.689769" name="ANewTask" importance="0" progressionState="0" effort="0" started="false" completed="false" deadline="false" description="" initialDate="00002022" finalDate="00002022" />
+<Task0 taskID="462200991.327735" name="ANewTask" importance="0" progressionState="0" effort="0" started="false" completed="false" deadline="false" description="" initialDate="00002022" finalDate="00002022" />

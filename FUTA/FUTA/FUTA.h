@@ -5,6 +5,21 @@
 #include "Tasks.h"
 #include "PugiXml/src/pugixml.hpp"
 
+struct FUTAFilter {
+
+	FUTAFilter();
+
+	int orderType;
+	bool onlyDeadlines;
+	bool onlyProgressible;
+	bool onlyStarted;
+	bool onlyNonCompleted;
+	bool onlyMindless;
+	bool onlyMinimalFocus;
+	bool onlyMaximumFocus;
+
+};
+
 class FUTA {
 
 public:
@@ -42,12 +57,15 @@ private:
 
 	void SaveTaskData(Tasks& task, pugi::xml_node node);
 	Tasks LoadTaskData(pugi::xml_node node);
+	void SaveFilterData();
+	void LoadFilterData();
 	void DeleteTask();
 
 	int screenWidth, screenHeight, currentYear;
 	double toDeleteID;
 	bool FUTAmenu;
 	std::vector<Tasks> taskList;
+	FUTAFilter filterOptions;
 
 };
 

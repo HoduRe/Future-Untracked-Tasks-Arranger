@@ -2,7 +2,10 @@
 #include "FUTA.h"
 #include <time.h>
 
-FUTA::FUTA() : FUTAmenu(true), toDeleteID(0), screenWidth(0), screenHeight(0) {
+FUTAFilter::FUTAFilter() : orderType(0), onlyDeadlines(false), onlyProgressible(false), onlyStarted(false), onlyNonCompleted(true), onlyMindless(false),
+onlyMinimalFocus(false), onlyMaximumFocus(false) {}
+
+FUTA::FUTA() : FUTAmenu(true), toDeleteID(0), screenWidth(0), screenHeight(0), filterOptions() {
 
 	time_t t = time(NULL);
 	struct tm tm = *localtime(&t);
@@ -41,8 +44,24 @@ void FUTA::Update(int _screenWidth, int _screenHeight) {
 
 void FUTA::DrawOptions() {
 
+	AddTabulation();
+	ImGui::Text("Select filter ordering options:");
+	AddTabulation(); AddSpacedText("");
+	ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.25);
+	const char* filterItems[] = { "By name", "By starting date", "By importance" };
+	ImGui::Combo("Task order", &filterOptions.orderType, filterItems, IM_ARRAYSIZE(filterItems));
 
-
+	AddTabulation();
+	ImGui::Text("Select filter discarding options:");
+	ImGui::NewLine(); AddSpacedText(""); AddSpacedText("");
+	ImGui::Checkbox("Deadlines", &filterOptions.onlyDeadlines); AddSpacedText("");
+	ImGui::Checkbox("Progressible", &filterOptions.onlyProgressible); AddSpacedText("");
+	ImGui::Checkbox("Started##Filter", &filterOptions.onlyStarted); AddSpacedText("");
+	ImGui::Checkbox("Non-Completed", &filterOptions.onlyNonCompleted); ImGui::NewLine(); AddSpacedText(""); AddSpacedText("");
+	ImGui::Checkbox("Mindless focus", &filterOptions.onlyMindless); AddSpacedText("");
+	ImGui::Checkbox("Minimal focus", &filterOptions.onlyMinimalFocus); AddSpacedText("");
+	ImGui::Checkbox("Maximum focus", &filterOptions.onlyMaximumFocus); ImGui::NewLine();
+	
 }
 
 #pragma endregion

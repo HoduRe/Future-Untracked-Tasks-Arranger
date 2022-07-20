@@ -1,7 +1,8 @@
 #include "imgui.h"
 #include "FUTA.h"
 
-#define FUTA_FILE_NAME "FUTAPlanning.txt"
+#define FUTA_DATA_FILE_NAME "FUTAPlanning.txt"
+#define FUTA_FILTER_FILE_NAME "FUTAFilter.txt"
 
 void FUTA::SaveData() {
 
@@ -11,7 +12,9 @@ void FUTA::SaveData() {
 		SaveTaskData(taskList[taskIndex], doc.append_child(("Task" + std::to_string(taskIndex)).c_str()));
 	}
 
-	doc.save_file(FUTA_FILE_NAME);
+	doc.save_file(FUTA_DATA_FILE_NAME);
+
+	SaveFilterData();
 
 }
 
@@ -19,11 +22,13 @@ void FUTA::SaveData() {
 void FUTA::LoadData() {
 
 	pugi::xml_document doc;
-	pugi::xml_parse_result futaFile = doc.load_file(FUTA_FILE_NAME);
+	pugi::xml_parse_result futaFile = doc.load_file(FUTA_DATA_FILE_NAME);
 
 	if (futaFile != NULL) {
 		for (pugi::xml_node taskNode = doc.first_child(); taskNode; taskNode = taskNode.next_sibling()) { taskList.push_back(LoadTaskData(taskNode)); }
 	}
+
+	LoadFilterData();
 
 }
 
@@ -75,6 +80,44 @@ Tasks FUTA::LoadTaskData(pugi::xml_node node) {
 	for (pugi::xml_node subtaskNode = node.first_child(); subtaskNode; subtaskNode = subtaskNode.next_sibling()) { newTask.subtaskList.push_back(LoadTaskData(subtaskNode)); }
 
 	return newTask;
+
+}
+
+
+void FUTA::SaveFilterData() {
+
+	pugi::xml_document doc;
+
+	pugi::xml_node filterNode = doc.append_child("FilterOptions");
+
+	filterNode.append_attribute("orderType") = filterOptions.orderType;
+	filterNode.append_attribute("onlyDeadlines") = filterOptions.onlyDeadlines;
+	filterNode.append_attribute("onlyProgressible") = filterOptions.onlyProgressible;
+	filterNode.append_attribute("onlyStarted") = filterOptions.onlyStarted;
+	filterNode.append_attribute("onlyNonCompleted") = filterOptions.onlyNonCompleted;
+	filterNode.append_attribute("onlyMindless") = filterOptions.onlyMindless;
+	filterNode.append_attribute("onlyMinimalFocus") = filterOptions.onlyMinimalFocus;
+	filterNode.append_attribute("onlyMaximumFocus") = filterOptions.onlyMaximumFocus;
+
+	doc.save_file(FUTA_FILTER_FILE_NAME);
+
+}
+
+
+void FUTA::LoadFilterData() {
+
+	pugi::xml_document doc;
+	pugi::xml_parse_result futaFile = doc.load_file(FUTA_FILTER_FILE_NAME);
+
+	pugi::xml_node filterNode = doc.first_child();
+	filterOptions.orderType = filterNode.attribute("orderType").as_int();
+	filterOptions.onlyDeadlines = filterNode.attribute("onlyDeadlines").as_bool();
+	filterOptions.onlyProgressible = filterNode.attribute("onlyProgressible").as_bool();
+	filterOptions.onlyStarted = filterNode.attribute("onlyStarted").as_bool();
+	filterOptions.onlyNonCompleted = filterNode.attribute("onlyNonCompleted").as_bool();
+	filterOptions.onlyMindless = filterNode.attribute("onlyMindless").as_bool();
+	filterOptions.onlyMinimalFocus = filterNode.attribute("onlyMinimalFocus").as_bool();
+	filterOptions.onlyMaximumFocus = filterNode.attribute("onlyMaximumFocus").as_bool();
 
 }
 
