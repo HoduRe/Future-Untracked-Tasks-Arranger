@@ -1,4 +1,1 @@
 <?xml version="1.0"?>
-<Task0 taskID="671700095.688597" name="ANewTask" importance="0" progressionState="0" effort="0" started="false" completed="false" deadline="false" description="" initialDate="00002022" finalDate="00002022" />
-<Task1 taskID="1103872383.930481" name="ANewTask" importance="0" progressionState="0" effort="0" started="false" completed="false" deadline="false" description="" initialDate="0000000103" finalDate="00002022" />
-<Task2 taskID="2127901055.339190" name="ANewTask" importance="0" progressionState="0" effort="0" started="false" completed="false" deadline="false" description="" initialDate="00041000" finalDate="00002022" />

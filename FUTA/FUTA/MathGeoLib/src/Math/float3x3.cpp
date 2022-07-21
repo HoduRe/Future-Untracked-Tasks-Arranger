@@ -26,7 +26,6 @@
 #include "Matrix.inl"
 #include "Quat.h"
 #include "../Algorithm/Random/LCG.h"
-#include "../Geometry/Plane.h"
 #include "TransformOps.h"
 
 #ifdef MATH_ENABLE_STL_SUPPORT
@@ -275,23 +274,6 @@ float3x3 float3x3::ShearZ(float xFactor, float yFactor)
 	return float3x3(1.f,         0.f, 0.f,
 	                0.f,         1.f, 0.f,
 	                xFactor, yFactor, 1.f);
-}
-
-float3x3 float3x3::Mirror(const Plane &p)
-{
-	assume(p.PassesThroughOrigin() && "A 3x3 matrix cannot represent mirroring about planes which do not pass through the origin! Use float3x4::Mirror instead!");
-	float3x3 v;
-	SetMatrix3x3LinearPlaneMirror(v, p.normal.x, p.normal.y, p.normal.z);
-	return v;
-}
-
-float3x3 float3x3::OrthographicProjection(const Plane &p)
-{
-	assume(p.normal.IsNormalized());
-	assume(p.PassesThroughOrigin() && "A 3x3 matrix cannot represent projection onto planes which do not pass through the origin! Use float3x4::OrthographicProjection instead!");
-	float3x3 v;
-	SetMatrix3x3LinearPlaneProject(v, p.normal.x, p.normal.y, p.normal.z);
-	return v;
 }
 
 float3x3 float3x3::OrthographicProjectionYZ()

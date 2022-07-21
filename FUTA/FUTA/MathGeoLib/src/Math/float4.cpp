@@ -26,8 +26,6 @@
 
 #include "float2.h"
 #include "float3.h"
-#include "../Geometry/AABB.h"
-#include "../Geometry/Sphere.h"
 #include "../Algorithm/Random/LCG.h"
 #include "float4x4.h"
 #include "MathFunc.h"
@@ -958,11 +956,6 @@ void float4::PerpendicularBasis(float4 &outB, float4 &outC) const
 #endif
 }
 
-float4 float4::RandomPerpendicular(LCG &rng) const
-{
-	return Perpendicular(RandomDir(rng));
-}
-
 float4 float4::Reflect3(const float3 &normal) const
 {
 	assume2(normal.IsNormalized(), normal.SerializeToCodeString(), normal.Length());
@@ -1264,31 +1257,6 @@ bool float4::BitEquals(const float4 &other) const
 		ReinterpretAsU32(y) == ReinterpretAsU32(other.y) &&
 		ReinterpretAsU32(z) == ReinterpretAsU32(other.z) &&
 		ReinterpretAsU32(w) == ReinterpretAsU32(other.w);
-}
-
-float4 MUST_USE_RESULT float4::RandomDir(LCG &lcg, float length)
-{
-	return DIR_TO_FLOAT4(Sphere(POINT_VEC_SCALAR(0.f), length).RandomPointOnSurface(lcg) - vec(POINT_VEC_SCALAR(0.f)));
-}
-
-float4 MUST_USE_RESULT float4::RandomSphere(LCG &lcg, const float4 &center, float radius)
-{
-	return POINT_TO_FLOAT4(Sphere(FLOAT4_TO_POINT(center), radius).RandomPointInside(lcg));
-}
-
-float4 MUST_USE_RESULT float4::RandomBox(LCG &lcg, float xmin, float xmax, float ymin, float ymax, float zmin, float zmax)
-{
-	return RandomBox(lcg, float4(xmin, ymin, zmin, 1.f), float4(xmax, ymax, zmax, 1.f));
-}
-
-float4 MUST_USE_RESULT float4::RandomBox(LCG &lcg, float minElem, float maxElem)
-{
-	return RandomBox(lcg, float4(minElem, minElem, minElem, 1.f), float4(maxElem, maxElem, maxElem, 1.f));
-}
-
-float4 MUST_USE_RESULT float4::RandomBox(LCG &lcg, const float4 &minValues, const float4 &maxValues)
-{
-	return POINT_TO_FLOAT4(AABB(FLOAT4_TO_POINT(minValues), FLOAT4_TO_POINT(maxValues)).RandomPointInside(lcg));
 }
 
 float4 float4::RandomGeneral(LCG &lcg, float minElem, float maxElem)

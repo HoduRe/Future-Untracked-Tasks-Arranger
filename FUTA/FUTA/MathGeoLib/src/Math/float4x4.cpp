@@ -26,7 +26,6 @@
 #include "Matrix.inl"
 #include "Quat.h"
 #include "TransformOps.h"
-#include "../Geometry/Plane.h"
 #include "../Algorithm/Random/LCG.h"
 #include "SSEMath.h"
 #include "float4x4_sse.h"
@@ -434,14 +433,6 @@ float4x4 float4x4::ShearZ(float xFactor, float yFactor)
 	                    0.f,     0.f, 0.f, 1.f);
 }
 
-float4x4 float4x4::Mirror(const Plane &p)
-{
-	float4x4 v;
-	SetMatrix3x4AffinePlaneMirror(v, p.normal.x, p.normal.y, p.normal.z, p.d);
-	v[3][0] = 0.f; v[3][1] = 0.f; v[3][2] = 0.f; v[3][3] = 1.f;
-	return v;
-}
-
 float4x4 float4x4::D3DOrthoProjLH(float n, float f, float h, float v)
 {
 	float4x4 p;
@@ -562,13 +553,6 @@ float4x4 float4x4::OpenGLPerspProjRH(float n, float f, float h, float v)
 	p[3][0] = 0;           p[3][1] = 0;           p[3][2] = -1.f;           p[3][3] = 0.f;
 
 	return p;
-}
-
-float4x4 float4x4::OrthographicProjection(const Plane &p)
-{
-	float4x4 v;
-	SetMatrix3x4AffinePlaneProject(v, p.normal.x, p.normal.y, p.normal.z, p.d);
-	return v;
 }
 
 float4x4 float4x4::OrthographicProjectionYZ()

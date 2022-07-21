@@ -26,15 +26,6 @@
 #include "float2.h"
 #include "float4.h"
 #include "float3x3.h"
-#include "../Geometry/Line.h"
-#include "../Geometry/Ray.h"
-#include "../Geometry/LineSegment.h"
-#include "../Geometry/Sphere.h"
-#include "../Geometry/AABB.h"
-#include "../Geometry/OBB.h"
-#include "../Geometry/Plane.h"
-#include "../Geometry/Triangle.h"
-#include "../Geometry/Capsule.h"
 #include "MathFunc.h"
 
 #ifdef MATH_SIMD
@@ -523,16 +514,6 @@ float float3::Distance(const float3 &rhs) const
 #endif
 }
 
-float float3::Distance(const Line &rhs) const { return rhs.Distance(POINT_VEC(*this)); }
-float float3::Distance(const Ray &rhs) const { return rhs.Distance(POINT_VEC(*this)); }
-float float3::Distance(const LineSegment &rhs) const { return rhs.Distance(POINT_VEC(*this)); }
-float float3::Distance(const Plane &rhs) const { return rhs.Distance(POINT_VEC(*this)); }
-float float3::Distance(const Triangle &rhs) const { return rhs.Distance(POINT_VEC(*this)); }
-float float3::Distance(const AABB &rhs) const { return rhs.Distance(POINT_VEC(*this)); }
-float float3::Distance(const OBB &rhs) const { return rhs.Distance(POINT_VEC(*this)); }
-float float3::Distance(const Sphere &rhs) const { return rhs.Distance(POINT_VEC(*this)); }
-float float3::Distance(const Capsule &rhs) const { return rhs.Distance(POINT_VEC(*this)); }
-
 float float3::Dot(const float3 &rhs) const
 {
 #ifdef MATH_AUTOMATIC_SIMD_FLOAT3
@@ -630,11 +611,6 @@ void float3::PerpendicularBasis(float3 &outB, float3 &outC) const
 	outB = this->Cross(q).Normalized();
 	outC = this->Cross(outB).Normalized();
 #endif
-}
-
-float3 float3::RandomPerpendicular(LCG &rng) const
-{
-	return Perpendicular(RandomDir(rng));
 }
 
 float MUST_USE_RESULT float3::ScalarTripleProduct(const float3 &u, const float3 &v, const float3 &w)
@@ -891,31 +867,6 @@ float4 float3::ToPos4() const
 float4 float3::ToDir4() const
 {
 	return float4(*this, 0.f);
-}
-
-float3 MUST_USE_RESULT float3::RandomDir(LCG &lcg, float length)
-{
-	return POINT_TO_FLOAT3(Sphere(POINT_VEC_SCALAR(0.f), length).RandomPointOnSurface(lcg));
-}
-
-float3 MUST_USE_RESULT float3::RandomSphere(LCG &lcg, const float3 &center, float radius)
-{
-	return POINT_TO_FLOAT3(Sphere(POINT_VEC(center), radius).RandomPointInside(lcg));
-}
-
-float3 MUST_USE_RESULT float3::RandomBox(LCG &lcg, float xmin, float xmax, float ymin, float ymax, float zmin, float zmax)
-{
-	return RandomBox(lcg, float3(xmin, ymin, zmin), float3(xmax, ymax, zmax));
-}
-
-float3 MUST_USE_RESULT float3::RandomBox(LCG &lcg, float minElem, float maxElem)
-{
-	return RandomBox(lcg, float3(minElem, minElem, minElem), float3(maxElem, maxElem, maxElem));
-}
-
-float3 MUST_USE_RESULT float3::RandomBox(LCG &lcg, const float3 &minValues, const float3 &maxValues)
-{
-	return POINT_TO_FLOAT3(AABB(POINT_VEC(minValues), POINT_VEC(maxValues)).RandomPointInside(lcg));
 }
 
 float3 float3::operator +(const float3 &rhs) const
