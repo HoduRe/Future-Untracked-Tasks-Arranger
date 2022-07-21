@@ -1,3 +1,7 @@
+FUTA Author Disclaimer: the library has been heavily edited to reduce its weight. Check source code to have access to the full library
+
+==========
+
 MathGeoLib
 ==========
 
@@ -13,3 +17,5 @@ A C++ library for linear algebra and geometry manipulation for computer graphics
 * Forums: http://www.gamedev.net/
 * Continuous Builds: http://clb.demon.fi:8113/waterfall
 * Live HTML Interpreter: https://dl.dropbox.com/u/40949268/emcc/MathGeoLibTest.html
+
+
