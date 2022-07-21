@@ -54,33 +54,6 @@
     <ClCompile Include="MathGeoLib\src\Math\Callstack.cpp">
       <Filter>MathGeoLib</Filter>
     </ClCompile>
-    <ClCompile Include="MathGeoLib\src\Math\float2.cpp">
-      <Filter>MathGeoLib</Filter>
-    </ClCompile>
-    <ClCompile Include="MathGeoLib\src\Math\float3.cpp">
-      <Filter>MathGeoLib</Filter>
-    </ClCompile>
-    <ClCompile Include="MathGeoLib\src\Math\float3x3.cpp">
-      <Filter>MathGeoLib</Filter>
-    </ClCompile>
-    <ClCompile Include="MathGeoLib\src\Math\float3x4.cpp">
-      <Filter>MathGeoLib</Filter>
-    </ClCompile>
-    <ClCompile Include="MathGeoLib\src\Math\float4.cpp">
-      <Filter>MathGeoLib</Filter>
-    </ClCompile>
-    <ClCompile Include="MathGeoLib\src\Math\float4d.cpp">
-      <Filter>MathGeoLib</Filter>
-    </ClCompile>
-    <ClCompile Include="MathGeoLib\src\Math\float4x4.cpp">
-      <Filter>MathGeoLib</Filter>
-    </ClCompile>
-    <ClCompile Include="MathGeoLib\src\Math\grisu3.c">
-      <Filter>MathGeoLib</Filter>
-    </ClCompile>
-    <ClCompile Include="MathGeoLib\src\Math\grisu3_cpp.cpp">
-      <Filter>MathGeoLib</Filter>
-    </ClCompile>
     <ClCompile Include="MathGeoLib\src\Math\MathFunc.cpp">
       <Filter>MathGeoLib</Filter>
     </ClCompile>
@@ -88,18 +61,6 @@
       <Filter>MathGeoLib</Filter>
     </ClCompile>
     <ClCompile Include="MathGeoLib\src\Math\MathOps.cpp">
-      <Filter>MathGeoLib</Filter>
-    </ClCompile>
-    <ClCompile Include="MathGeoLib\src\Math\Polynomial.cpp">
-      <Filter>MathGeoLib</Filter>
-    </ClCompile>
-    <ClCompile Include="MathGeoLib\src\Math\Quat.cpp">
-      <Filter>MathGeoLib</Filter>
-    </ClCompile>
-    <ClCompile Include="MathGeoLib\src\Math\SSEMath.cpp">
-      <Filter>MathGeoLib</Filter>
-    </ClCompile>
-    <ClCompile Include="MathGeoLib\src\Math\TransformOps.cpp">
       <Filter>MathGeoLib</Filter>
     </ClCompile>
     <ClCompile Include="MathGeoLib\src\Time\Clock.cpp">
@@ -158,43 +119,7 @@
     <ClInclude Include="MathGeoLib\src\Math\FixedPoint.h">
       <Filter>MathGeoLib</Filter>
     </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\float2.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\float3.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\float3x3.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\float3x4.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\float4.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\float4d.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\float4x4.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\float4x4_neon.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\float4x4_sse.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\float4_neon.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\float4_sse.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
     <ClInclude Include="MathGeoLib\src\Math\FloatCmp.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\grisu3.h">
       <Filter>MathGeoLib</Filter>
     </ClInclude>
     <ClInclude Include="MathGeoLib\src\Math\InclWindows.h">
@@ -218,37 +143,10 @@
     <ClInclude Include="MathGeoLib\src\Math\MathTypes.h">
       <Filter>MathGeoLib</Filter>
     </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\MatrixProxy.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
     <ClInclude Include="MathGeoLib\src\Math\myassert.h">
       <Filter>MathGeoLib</Filter>
     </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\Polynomial.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\Quat.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\quat_simd.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\Rect.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
     <ClInclude Include="MathGeoLib\src\Math\Reinterpret.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\simd.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\SSEMath.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\sse_mathfun.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\TransformOps.h">
       <Filter>MathGeoLib</Filter>
     </ClInclude>
     <ClInclude Include="MathGeoLib\src\MathBuildConfig.h">
@@ -269,13 +167,5 @@
     <ClInclude Include="PugiXml\src\pugixml.hpp">
       <Filter>Pugi</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="MathGeoLib\src\Math\float2.inl">
-      <Filter>MathGeoLib</Filter>
-    </None>
-    <None Include="MathGeoLib\src\Math\Matrix.inl">
-      <Filter>MathGeoLib</Filter>
-    </None>
   </ItemGroup>
 </Project>

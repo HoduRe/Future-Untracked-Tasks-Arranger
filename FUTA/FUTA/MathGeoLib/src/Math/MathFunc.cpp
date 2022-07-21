@@ -16,17 +16,12 @@
 	@author Jukka Jylänki
 	@brief Common mathematical functions. */
 #include "MathFunc.h"
-#include "SSEMath.h"
 #ifdef MATH_ENABLE_STL_SUPPORT
 #include <utility>
 #include <algorithm>
 #endif
 
 #include "myassert.h"
-#include "float2.h"
-#ifdef MATH_WITH_GRISU3
-#include "grisu3.h"
-#endif
 
 #ifdef WIN32
 #include "../Math/InclWindows.h"
@@ -159,42 +154,6 @@ void SinCos(float angleRadians, float &outSin, float &outCos)
 #else
 	outSin = Sin(angleRadians);
 	outCos = Cos(angleRadians);
-#endif
-}
-
-void SinCos2(const float4 &angleRadians, float4 &outSin, float4 &outCos)
-{
-#ifdef MATH_SSE2
-	__m128 angle = modf_ps(angleRadians.v, pi2);
-	sincos_ps(angle, &outSin.v, &outCos.v);
-#else
-	SinCos(angleRadians.x, outSin.x, outCos.x);
-	SinCos(angleRadians.y, outSin.y, outCos.y);
-#endif
-}
-
-void SinCos3(const float4 &angleRadians, float4 &outSin, float4 &outCos)
-{
-#ifdef MATH_SSE2
-	__m128 angle = modf_ps(angleRadians.v, pi2);
-	sincos_ps(angle, &outSin.v, &outCos.v);
-#else
-	SinCos(angleRadians.x, outSin.x, outCos.x);
-	SinCos(angleRadians.y, outSin.y, outCos.y);
-	SinCos(angleRadians.z, outSin.z, outCos.z);
-#endif
-}
-
-void SinCos4(const float4 &angleRadians, float4 &outSin, float4 &outCos)
-{
-#ifdef MATH_SSE2
-	__m128 angle = modf_ps(angleRadians.v, pi2);
-	sincos_ps(angle, &outSin.v, &outCos.v);
-#else
-	SinCos(angleRadians.x, outSin.x, outCos.x);
-	SinCos(angleRadians.y, outSin.y, outCos.y);
-	SinCos(angleRadians.z, outSin.z, outCos.z);
-	SinCos(angleRadians.w, outSin.w, outCos.w);
 #endif
 }
 
@@ -535,12 +494,7 @@ char *SerializeFloat(float f, char *dstStr)
 {
 	if (!IsNan(f))
 	{
-#ifdef MATH_WITH_GRISU3
-		int numChars = dtoa_grisu3((double)f, dstStr);
-		return dstStr + numChars;
-#else
 		return dstStr + sprintf(dstStr, "%.17g", f);
-#endif
 	}
 	else
 	{

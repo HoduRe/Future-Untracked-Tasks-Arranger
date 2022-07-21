@@ -26,9 +26,7 @@
 
 #include "MathTypes.h"
 #include "MathConstants.h"
-#include "float3.h"
 #include "Reinterpret.h"
-#include "SSEMath.h"
 
 #ifdef MATH_NEON
 #include <arm_neon.h>
@@ -110,15 +108,6 @@ MATH_BEGIN_NAMESPACE
 /// @see DOT3_xyz(), DOT4(), DOT4STRIDED(), DOT4POS(), DOT4POS_xyz(), DOT4DIR().
 #define DOT4DIR_xyz(vec4D, x, y, z) DOT3_xyz(vec4D, x, y, z)
 
-/// Converts the given amount of degrees into radians.
-/// 180 degrees equals pi, 360 degrees is a full circle, and equals 2pi.
-inline float3 DegToRad(const float3 &degrees) { return degrees * (pi / 180.f); }
-inline float DegToRad(float degrees) { return degrees * (pi / 180.f); }
-
-/// Converts the given amount of radians into degrees.
-inline float3 RadToDeg(const float3 &radians) { return radians * (180.f / pi); }
-inline float RadToDeg(float radians) { return radians * (180.f / pi); }
-
 /// Computes the function sin(x).
 /** @see Cos(), Tan(), SinCos(), Asin(), Acos(), Atan(), Atan2(), Sinh(), Cosh(), Tanh(). */
 float Sin(float angleRadians);
@@ -132,14 +121,6 @@ float Tan(float angleRadians);
 /// computing them separately.
 /** @see Sin(), Cos(), Tan(), Asin(), Acos(), Atan(), Atan2(), Sinh(), Cosh(), Tanh(). */
 void SinCos(float angleRadians, float &outSin, float &outCos);
-/// Computes sin and cos of the .x and .y components of angleRadians, stored to the corresponding components of outSin and outCos.
-/// The .y and .w components of the outputs are undefined.
-void SinCos2(const float4 &angleRadians, float4 &outSin, float4 &outCos);
-/// Computes sin and cos of the .x, .y and .z components of angleRadians, stored to the corresponding components of outSin and outCos.
-/// The .w components of the outputs are undefined.
-void SinCos3(const float4 &angleRadians, float4 &outSin, float4 &outCos);
-/// Computes sin and cos of the four components of angleRadians, stored to the corresponding components of outSin and outCos.
-void SinCos4(const float4 &angleRadians, float4 &outSin, float4 &outCos);
 /// Computes the function arcsin(x), in radians.
 /** @see Sin(), Cos(), Tan(), SinCos(), Acos(), Atan(), Atan2(), Sinh(), Cosh(), Tanh(). */
 float Asin(float x);
