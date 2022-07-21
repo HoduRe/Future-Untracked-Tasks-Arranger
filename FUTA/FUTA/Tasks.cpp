@@ -1,5 +1,5 @@
 #include "Tasks.h"
-#include "MathGeoLib/src/Algorithm/Random/LCG.h"
+#include "MathGeoLib (edited)/src/Algorithm/Random/LCG.h"
 
 double GenerateID() {
 

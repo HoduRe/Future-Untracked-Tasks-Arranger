@@ -45,29 +45,29 @@
     <ClCompile Include="FUTAUtilityFunctions.cpp">
       <Filter>FUTA</Filter>
     </ClCompile>
-    <ClCompile Include="MathGeoLib\src\Algorithm\Random\LCG.cpp">
-      <Filter>MathGeoLib</Filter>
-    </ClCompile>
-    <ClCompile Include="MathGeoLib\src\Math\BitOps.cpp">
-      <Filter>MathGeoLib</Filter>
-    </ClCompile>
-    <ClCompile Include="MathGeoLib\src\Math\Callstack.cpp">
-      <Filter>MathGeoLib</Filter>
-    </ClCompile>
-    <ClCompile Include="MathGeoLib\src\Math\MathFunc.cpp">
-      <Filter>MathGeoLib</Filter>
-    </ClCompile>
-    <ClCompile Include="MathGeoLib\src\Math\MathLog.cpp">
-      <Filter>MathGeoLib</Filter>
-    </ClCompile>
-    <ClCompile Include="MathGeoLib\src\Math\MathOps.cpp">
-      <Filter>MathGeoLib</Filter>
-    </ClCompile>
-    <ClCompile Include="MathGeoLib\src\Time\Clock.cpp">
-      <Filter>MathGeoLib</Filter>
-    </ClCompile>
     <ClCompile Include="PugiXml\src\pugixml.cpp">
       <Filter>Pugi</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib (edited)\src\Algorithm\Random\LCG.cpp">
+      <Filter>MathGeoLib</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib (edited)\src\Math\BitOps.cpp">
+      <Filter>MathGeoLib</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib (edited)\src\Math\Callstack.cpp">
+      <Filter>MathGeoLib</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib (edited)\src\Math\MathFunc.cpp">
+      <Filter>MathGeoLib</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib (edited)\src\Math\MathLog.cpp">
+      <Filter>MathGeoLib</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib (edited)\src\Math\MathOps.cpp">
+      <Filter>MathGeoLib</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib (edited)\src\Time\Clock.cpp">
+      <Filter>MathGeoLib</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -101,71 +101,71 @@
     <ClInclude Include="Tasks.h">
       <Filter>FUTA</Filter>
     </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Algorithm\Random\LCG.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\emscripten\library_system.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\assume.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\BitOps.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\Callstack.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\FixedPoint.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\FloatCmp.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\InclWindows.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\MathAll.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\MathConstants.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\MathFunc.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\MathLog.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\MathNamespace.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\MathTypes.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\myassert.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Math\Reinterpret.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\MathBuildConfig.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\MathGeoLib.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\MathGeoLibFwd.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
-    <ClInclude Include="MathGeoLib\src\Time\Clock.h">
-      <Filter>MathGeoLib</Filter>
-    </ClInclude>
     <ClInclude Include="PugiXml\src\pugiconfig.hpp">
       <Filter>Pugi</Filter>
     </ClInclude>
     <ClInclude Include="PugiXml\src\pugixml.hpp">
       <Filter>Pugi</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib (edited)\src\Algorithm\Random\LCG.h">
+      <Filter>MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib (edited)\src\emscripten\library_system.h">
+      <Filter>MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib (edited)\src\Math\assume.h">
+      <Filter>MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib (edited)\src\Math\BitOps.h">
+      <Filter>MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib (edited)\src\Math\Callstack.h">
+      <Filter>MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib (edited)\src\Math\FixedPoint.h">
+      <Filter>MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib (edited)\src\Math\FloatCmp.h">
+      <Filter>MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib (edited)\src\Math\InclWindows.h">
+      <Filter>MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib (edited)\src\Math\MathAll.h">
+      <Filter>MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib (edited)\src\Math\MathConstants.h">
+      <Filter>MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib (edited)\src\Math\MathFunc.h">
+      <Filter>MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib (edited)\src\Math\MathLog.h">
+      <Filter>MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib (edited)\src\Math\MathNamespace.h">
+      <Filter>MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib (edited)\src\Math\MathTypes.h">
+      <Filter>MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib (edited)\src\Math\myassert.h">
+      <Filter>MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib (edited)\src\Math\Reinterpret.h">
+      <Filter>MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib (edited)\src\MathBuildConfig.h">
+      <Filter>MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib (edited)\src\MathGeoLib.h">
+      <Filter>MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib (edited)\src\MathGeoLibFwd.h">
+      <Filter>MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib (edited)\src\Time\Clock.h">
+      <Filter>MathGeoLib</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
