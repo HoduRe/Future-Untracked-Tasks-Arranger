@@ -1,2 +1,0 @@
-<?xml version="1.0"?>
-<FilterOptions orderType="0" onlyDeadlines="false" onlyProgressible="false" onlyStarted="false" onlyNonCompleted="true" onlyMindless="false" onlyMinimalFocus="false" onlyMaximumFocus="false" />

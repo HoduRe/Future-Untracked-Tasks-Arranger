@@ -490,65 +490,6 @@ float PowInt(float base, int exponent)
 		return PowUInt(base, (u32)exponent);
 }
 
-char *SerializeFloat(float f, char *dstStr)
-{
-	if (!IsNan(f))
-	{
-		return dstStr + sprintf(dstStr, "%.17g", f);
-	}
-	else
-	{
-		u32 u = ReinterpretAsU32(f);
-		int numChars = sprintf(dstStr, "NaN(%8X)", (unsigned int)u);
-		return dstStr + numChars;
-	}
-}
-
-float DeserializeFloat(const char *str, const char **outEndStr)
-{
-	if (!str)
-		return FLOAT_NAN;
-	while(*str > 0 && *str <= ' ')
-		++str;
-	if (*str == 0)
-		return FLOAT_NAN;
-	if (MATH_NEXT_WORD_IS(str, "NaN("))
-	{
-		str += strlen("NaN("); //MATH_SKIP_WORD(str, "NaN(");
-		u32 x;
-		int n = sscanf(str, "%X", (unsigned int *)&x);
-		if (n != 1)
-			return FLOAT_NAN;
-		while(*str != 0)
-		{
-			++str;
-			if (*str == ')')
-			{
-				++str;
-				break;
-			}
-		}
-		if (outEndStr)
-			*outEndStr = str;
-		return ReinterpretAsFloat(x);
-	}
-	float f;
-
-	if (!strncmp(str, "-inf", 4)) { f = -FLOAT_INF; str += 4; }
-	else if (!strncmp(str, "inf", 3)) { f = FLOAT_INF; str += 3; }
-	else f = (float)strtod(str, const_cast<char**>(&str));
-
-	while(*str > 0 && *str <= ' ')
-		++str;
-	if (*str == ',' || *str == ';')
-		++str;
-	while(*str > 0 && *str <= ' ')
-		++str;
-	if (outEndStr)
-		*outEndStr = str;
-	return f;
-}
-
 int hexstr_to_u64(const char *str, uint64_t *u)
 {
 	assert(u);

@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<Task0 taskID="920243583.815944" name="ANewTask" importance="0" progressionState="0" effort="0" started="false" completed="false" deadline="false" description="" initialDate="" finalDate="" />
-<Task1 taskID="1404960639.946951" name="ANewTask" importance="0" progressionState="0" effort="0" started="false" completed="false" deadline="false" description="" initialDate="" finalDate="" />
-<Task2 taskID="701482175.233051" name="ANewTask" importance="0" progressionState="0" effort="0" started="false" completed="false" deadline="false" description="" initialDate="" finalDate="" />
-<Task3 taskID="1900342527.219366" name="ANewTask" importance="0" progressionState="0" effort="0" started="false" completed="false" deadline="false" description="" initialDate="" finalDate="" />

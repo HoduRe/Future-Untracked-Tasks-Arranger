@@ -7,8 +7,9 @@ onlyMinimalFocus(false), onlyMaximumFocus(false) {}
 
 FUTA::FUTA() : FUTAmenu(true), toDeleteID(0), screenWidth(0), screenHeight(0), filterOptions(), userFilterOptions(), reorderVector(false) {
 
+	struct tm tm;
 	time_t t = time(NULL);
-	struct tm tm = *localtime(&t);
+	localtime_s(&tm, &t);
 	currentYear = tm.tm_year + 1900;
 
 }
@@ -166,7 +167,8 @@ void FUTA::DrawBasicTaskData(Tasks& task, Tasks* parentTask) {
 
 	ImGuiInputTextFlags inputTextFlags = ImGuiInputTextFlags_EnterReturnsTrue;
 	ImGui::SameLine(); ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.5);
-	ImGui::InputText(ConstructItemName("name", task.taskID).c_str(), (char*)task.name, IM_ARRAYSIZE(task.name), inputTextFlags);
+	if(ImGui::InputText(ConstructItemName("name", task.taskID).c_str(), (char*)task.name, IM_ARRAYSIZE(task.name), inputTextFlags)){ reorderVector = true; }
+	if(ImGui::IsItemDeactivatedAfterEdit()){ reorderVector = true; }
 	AddSpacedText("Started");
 	DrawColoredButton(task.started, ConstructItemName("started", task.taskID));
 	AddSpacedText("Completed");

@@ -230,14 +230,18 @@ void FUTA::AddSpacedText(std::string text) { ImGui::SameLine(); ImGui::Text(("\t
 
 bool ReorderByName(Tasks& taskA, Tasks& taskB) {
 
-	char auxA = taskA.name[0];
-	char auxB = taskB.name[0];
+	for (int i = 0; i < NAME_BUFFER; i++) {
 
-	if (auxA >= 97 && auxA <= 122) { auxA -= 32; }
-	if (auxB >= 97 && auxB <= 122) { auxB -= 32; }
+		char auxA = taskA.name[i];
+		char auxB = taskB.name[i];
 
-	return auxA < auxB;
+		if (auxA >= 97 && auxA <= 122) { auxA -= 32; }
+		if (auxB >= 97 && auxB <= 122) { auxB -= 32; }
+		if (auxA != auxB) { return auxA < auxB; }
 
+	}
+
+	return true;
 }
 
 std::string ComposeReverseDate(std::string& originalString) {
