@@ -91,14 +91,14 @@ void FUTA::SaveFilterData() {
 
 	pugi::xml_node filterNode = doc.append_child("FilterOptions");
 
-	filterNode.append_attribute("orderType") = filterOptions.orderType;
-	filterNode.append_attribute("onlyDeadlines") = filterOptions.onlyDeadlines;
-	filterNode.append_attribute("onlyProgressible") = filterOptions.onlyProgressible;
-	filterNode.append_attribute("onlyStarted") = filterOptions.onlyStarted;
-	filterNode.append_attribute("onlyNonCompleted") = filterOptions.onlyNonCompleted;
-	filterNode.append_attribute("onlyMindless") = filterOptions.onlyMindless;
-	filterNode.append_attribute("onlyMinimalFocus") = filterOptions.onlyMinimalFocus;
-	filterNode.append_attribute("onlyMaximumFocus") = filterOptions.onlyMaximumFocus;
+	filterNode.append_attribute("orderType") = userFilterOptions.orderType;
+	filterNode.append_attribute("onlyDeadlines") = userFilterOptions.onlyDeadlines;
+	filterNode.append_attribute("onlyProgressible") = userFilterOptions.onlyProgressible;
+	filterNode.append_attribute("onlyStarted") = userFilterOptions.onlyStarted;
+	filterNode.append_attribute("onlyNonCompleted") = userFilterOptions.onlyNonCompleted;
+	filterNode.append_attribute("onlyMindless") = userFilterOptions.onlyMindless;
+	filterNode.append_attribute("onlyMinimalFocus") = userFilterOptions.onlyMinimalFocus;
+	filterNode.append_attribute("onlyMaximumFocus") = userFilterOptions.onlyMaximumFocus;
 
 	doc.save_file(FUTA_FILTER_FILE_NAME);
 
@@ -110,15 +110,19 @@ void FUTA::LoadFilterData() {
 	pugi::xml_document doc;
 	pugi::xml_parse_result futaFile = doc.load_file(FUTA_FILTER_FILE_NAME);
 
-	pugi::xml_node filterNode = doc.first_child();
-	filterOptions.orderType = filterNode.attribute("orderType").as_int();
-	filterOptions.onlyDeadlines = filterNode.attribute("onlyDeadlines").as_bool();
-	filterOptions.onlyProgressible = filterNode.attribute("onlyProgressible").as_bool();
-	filterOptions.onlyStarted = filterNode.attribute("onlyStarted").as_bool();
-	filterOptions.onlyNonCompleted = filterNode.attribute("onlyNonCompleted").as_bool();
-	filterOptions.onlyMindless = filterNode.attribute("onlyMindless").as_bool();
-	filterOptions.onlyMinimalFocus = filterNode.attribute("onlyMinimalFocus").as_bool();
-	filterOptions.onlyMaximumFocus = filterNode.attribute("onlyMaximumFocus").as_bool();
+	if (futaFile != NULL) {
+
+		pugi::xml_node filterNode = doc.first_child();
+		filterOptions.orderType = filterNode.attribute("orderType").as_int();
+		filterOptions.onlyDeadlines = filterNode.attribute("onlyDeadlines").as_bool();
+		filterOptions.onlyProgressible = filterNode.attribute("onlyProgressible").as_bool();
+		filterOptions.onlyStarted = filterNode.attribute("onlyStarted").as_bool();
+		filterOptions.onlyNonCompleted = filterNode.attribute("onlyNonCompleted").as_bool();
+		filterOptions.onlyMindless = filterNode.attribute("onlyMindless").as_bool();
+		filterOptions.onlyMinimalFocus = filterNode.attribute("onlyMinimalFocus").as_bool();
+		filterOptions.onlyMaximumFocus = filterNode.attribute("onlyMaximumFocus").as_bool();
+
+	}
 
 }
 
@@ -238,9 +242,16 @@ bool ReorderByName(Tasks& taskA, Tasks& taskB) {
 
 std::string ComposeReverseDate(std::string& originalString) {
 
-	std::string auxString = originalString.substr(4, originalString.size() - 1);
-	auxString += originalString.substr(2, 2);
-	auxString += originalString.substr(0, 2);
+	std::string auxString;
+
+	if (originalString.size() > 4) {
+
+		auxString = originalString.substr(4, originalString.size() - 4);
+		auxString += originalString.substr(2, 2);
+		auxString += originalString.substr(0, 2);
+
+	}
+
 	return auxString;
 }
 
@@ -248,6 +259,9 @@ bool ReorderByStartingDate(Tasks& taskA, Tasks& taskB) {
 
 	std::string auxA = ComposeReverseDate(taskA.initialDate);
 	std::string auxB = ComposeReverseDate(taskB.initialDate);
+
+	if (auxA.size() == 0) { auxA = "0"; }
+	if (auxB.size() == 0) { auxB = "0"; }
 
 	return std::stoi(auxA) < std::stoi(auxB);
 

@@ -70,6 +70,7 @@ private:
 
 	std::vector<Tasks> taskList;
 	FUTAFilter filterOptions;
+	FUTAFilter userFilterOptions;
 
 };
 
