@@ -272,7 +272,7 @@ bool ReorderByStartingDate(Tasks& taskA, Tasks& taskB) {
 }
 
 
-bool ReorderByImportance(Tasks& taskA, Tasks& taskB) { return taskA.importance < taskB.importance; }
+bool ReorderByImportance(Tasks& taskA, Tasks& taskB) { return taskA.importance > taskB.importance; }
 
 
 void FUTA::ReorderTaskVector() {
