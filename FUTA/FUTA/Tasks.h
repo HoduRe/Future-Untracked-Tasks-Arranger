@@ -22,6 +22,8 @@ public:
 	bool started;
 	bool completed;
 	bool deadline;
+	bool textOpen;
+	bool subtasksOpen;
 
 	char name[NAME_BUFFER];
 	char description[DESCRIPTION_BUFFER];

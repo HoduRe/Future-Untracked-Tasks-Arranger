@@ -2,10 +2,10 @@
 #include "FUTA.h"
 #include <time.h>
 
-FUTAFilter::FUTAFilter() : orderType(0), onlyDeadlines(false), onlyProgressible(false), onlyStarted(false), onlyNonCompleted(true), onlyNoType(false), onlyMindless(false),
-onlyMinimalFocus(false), onlyMaximumFocus(false) {}
+FUTAFilter::FUTAFilter() : orderType(0), onlyDeadlines(false), onlyProgressible(false), onlyNonProgressible(false), onlyStarted(false), onlyNonCompleted(true), onlyNoType(false),
+onlyMindless(false), onlyMinimalFocus(false), onlyMaximumFocus(false) {}
 
-FUTA::FUTA() : FUTAmenu(true), toDeleteID(0), screenWidth(0), screenHeight(0), filterOptions(), userFilterOptions(), reorderVector(false) {
+FUTA::FUTA() : FUTAmenu(true), toDeleteID(0), screenWidth(0), screenHeight(0), filterOptions(), userFilterOptions(), reorderVector(false), openAllTasks(false), closeAllTasks(false) {
 
 	struct tm tm;
 	time_t t = time(NULL);
@@ -36,6 +36,8 @@ void FUTA::Update(int _screenWidth, int _screenHeight) {
 	//////// ------------------------------------------------------
 
 	if (reorderVector) { ReorderTaskVector(); }
+	openAllTasks = false;
+	closeAllTasks = false;
 
 	DeleteTask();
 	ImGui::End();
@@ -71,6 +73,7 @@ void FUTA::DrawOptions() {
 	ImGui::Text("Select filtering 'only x' options:"); AddSpacedText("");
 	ImGui::Checkbox("Deadlines", &filterOptions.onlyDeadlines); AddSpacedText("");
 	ImGui::Checkbox("Progressible", &filterOptions.onlyProgressible); AddSpacedText("");
+	ImGui::Checkbox("Non-progressible", &filterOptions.onlyNonProgressible); AddSpacedText("");
 	ImGui::Checkbox("Started##Filter", &filterOptions.onlyStarted); AddSpacedText("");
 	ImGui::Checkbox("Non-Completed", &filterOptions.onlyNonCompleted);
 
@@ -92,11 +95,15 @@ void FUTA::DrawTaskList() {
 
 	ImGui::Text("Create new task"); ImGui::SameLine();
 	if (ImGui::Button("+")) {
-		
+
 		taskList.emplace(taskList.begin(), Tasks());
 		filterOptions = FUTAFilter();
-	
+
 	}
+
+	AddSpacedText("");
+	if (ImGui::Button("Open all tasks")) { openAllTasks = true; } AddSpacedText("");
+	if (ImGui::Button("Close all tasks")) { closeAllTasks = true; }
 
 	ImGui::SameLine(); AddSpacedText("");
 	if (DrawAllDeletePopUp()) {
@@ -113,6 +120,7 @@ void FUTA::DrawTaskList() {
 		bool draw = true;
 		if (filterOptions.onlyDeadlines && taskList[i].deadline == false) { draw = false; }
 		if (filterOptions.onlyProgressible && (taskList[i].progressionState == 0 || taskList[i].progressionState == 1) == false) { draw = false; }
+		if (filterOptions.onlyNonProgressible && (taskList[i].progressionState < 2)) { draw = false; }
 		if (filterOptions.onlyStarted && taskList[i].started == false) { draw = false; }
 		if (filterOptions.onlyNonCompleted && taskList[i].completed) { draw = false; }
 		if (filterOptions.onlyNoType && taskList[i].effort == 0) { draw = false; }
@@ -134,6 +142,8 @@ void FUTA::DrawTask(Tasks& task) {
 	DrawBasicTaskData(task, nullptr);
 	ImGui::NewLine();
 
+	if (openAllTasks) { ImGui::SetNextItemOpen(openAllTasks); }
+	if (closeAllTasks) { ImGui::SetNextItemOpen(!closeAllTasks); }
 	if (ImGui::TreeNode(("Task data" + ConstructItemName("taskData", task.taskID)).c_str())) {
 
 		DrawProgressState(task);
@@ -146,6 +156,8 @@ void FUTA::DrawTask(Tasks& task) {
 		DrawDates(task);
 
 		AddTabulation();
+		ImGui::Checkbox(("" + ConstructItemName("taskDescriptionCheckbox", task.taskID)).c_str(), &task.textOpen); ImGui::SameLine();
+		if (task.textOpen) { ImGui::SetNextItemOpen(true); }
 		if (ImGui::TreeNode(("Task description" + ConstructItemName("taskDescription", task.taskID)).c_str())) {
 
 			AddTabulation();
@@ -169,8 +181,8 @@ void FUTA::DrawBasicTaskData(Tasks& task, Tasks* parentTask) {
 
 	ImGuiInputTextFlags inputTextFlags = ImGuiInputTextFlags_EnterReturnsTrue;
 	ImGui::SameLine(); ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.5);
-	if(ImGui::InputText(ConstructItemName("name", task.taskID).c_str(), (char*)task.name, IM_ARRAYSIZE(task.name), inputTextFlags)){ reorderVector = true; }
-	if(ImGui::IsItemDeactivatedAfterEdit()){ reorderVector = true; }
+	if (ImGui::InputText(ConstructItemName("name", task.taskID).c_str(), (char*)task.name, IM_ARRAYSIZE(task.name), inputTextFlags)) { reorderVector = true; }
+	if (ImGui::IsItemDeactivatedAfterEdit()) { reorderVector = true; }
 	AddSpacedText("Started");
 	DrawColoredButton(task.started, ConstructItemName("started", task.taskID));
 	AddSpacedText("Completed");
@@ -248,6 +260,8 @@ void FUTA::DrawSubtasks(Tasks& task) {
 
 	AddTabulation();
 
+	ImGui::Checkbox(("" + ConstructItemName("defaultsubtaskOpenCheckbox", task.taskID)).c_str(), &task.subtasksOpen); ImGui::SameLine();
+	if (task.subtasksOpen) { ImGui::SetNextItemOpen(true); }
 	if (ImGui::TreeNode(("Subtasks" + ConstructItemName("subtasks", task.taskID)).c_str())) {
 
 		AddTabulation();

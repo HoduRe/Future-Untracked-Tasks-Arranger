@@ -45,6 +45,8 @@ void FUTA::SaveTaskData(Tasks& task, pugi::xml_node node) {
 	node.append_attribute("started") = task.started;
 	node.append_attribute("completed") = task.completed;
 	node.append_attribute("deadline") = task.deadline;
+	node.append_attribute("textOpen") = task.textOpen;
+	node.append_attribute("subtasksOpen") = task.subtasksOpen;
 	node.append_attribute("description") = task.description;
 	node.append_attribute("initialDate") = task.initialDate.c_str();
 	node.append_attribute("finalDate") = task.finalDate.c_str();
@@ -70,6 +72,8 @@ Tasks FUTA::LoadTaskData(pugi::xml_node node) {
 	newTask.started = node.attribute("started").as_bool();
 	newTask.completed = node.attribute("completed").as_bool();
 	newTask.deadline = node.attribute("deadline").as_bool();
+	newTask.textOpen = node.attribute("textOpen").as_bool();
+	newTask.subtasksOpen = node.attribute("subtasksOpen").as_bool();
 	newTask.initialDate = node.attribute("initialDate").as_string();
 	newTask.finalDate = node.attribute("finalDate").as_string();
 
@@ -95,6 +99,7 @@ void FUTA::SaveFilterData() {
 	filterNode.append_attribute("orderType") = userFilterOptions.orderType;
 	filterNode.append_attribute("onlyDeadlines") = userFilterOptions.onlyDeadlines;
 	filterNode.append_attribute("onlyProgressible") = userFilterOptions.onlyProgressible;
+	filterNode.append_attribute("onlyNonProgressible") = userFilterOptions.onlyNonProgressible;
 	filterNode.append_attribute("onlyStarted") = userFilterOptions.onlyStarted;
 	filterNode.append_attribute("onlyNonCompleted") = userFilterOptions.onlyNonCompleted;
 	filterNode.append_attribute("onlyNoType") = userFilterOptions.onlyNoType;
@@ -118,6 +123,7 @@ void FUTA::LoadFilterData() {
 		filterOptions.orderType = filterNode.attribute("orderType").as_int();
 		filterOptions.onlyDeadlines = filterNode.attribute("onlyDeadlines").as_bool();
 		filterOptions.onlyProgressible = filterNode.attribute("onlyProgressible").as_bool();
+		filterOptions.onlyNonProgressible = filterNode.attribute("onlyNonProgressible").as_bool();
 		filterOptions.onlyStarted = filterNode.attribute("onlyStarted").as_bool();
 		filterOptions.onlyNonCompleted = filterNode.attribute("onlyNonCompleted").as_bool();
 		filterOptions.onlyNoType = filterNode.attribute("onlyNoType").as_bool();

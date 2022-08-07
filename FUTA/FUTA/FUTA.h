@@ -12,6 +12,7 @@ struct FUTAFilter {
 	int orderType;
 	bool onlyDeadlines;
 	bool onlyProgressible;
+	bool onlyNonProgressible;
 	bool onlyStarted;
 	bool onlyNonCompleted;
 	bool onlyNoType;
@@ -65,7 +66,7 @@ private:
 
 	int screenWidth, screenHeight, currentYear;
 	double toDeleteID;
-	bool FUTAmenu;
+	bool FUTAmenu, openAllTasks, closeAllTasks;
 
 	bool reorderVector;
 
