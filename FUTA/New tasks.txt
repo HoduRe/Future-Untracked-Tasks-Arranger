@@ -1,0 +1,7 @@
+TASKS:
+
+- FUTA should have a search task thing
+- Have a bool for text and subtasks of "keep open" (true when Add)
+- Add a percentage list if subtasks, to pump yourself
+
+- What we do with type not showing and not being "updated"

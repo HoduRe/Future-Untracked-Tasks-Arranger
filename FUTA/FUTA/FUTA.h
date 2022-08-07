@@ -14,6 +14,7 @@ struct FUTAFilter {
 	bool onlyProgressible;
 	bool onlyStarted;
 	bool onlyNonCompleted;
+	bool onlyNoType;
 	bool onlyMindless;
 	bool onlyMinimalFocus;
 	bool onlyMaximumFocus;

@@ -2,7 +2,7 @@
 #include "FUTA.h"
 #include <time.h>
 
-FUTAFilter::FUTAFilter() : orderType(0), onlyDeadlines(false), onlyProgressible(false), onlyStarted(false), onlyNonCompleted(true), onlyMindless(false),
+FUTAFilter::FUTAFilter() : orderType(0), onlyDeadlines(false), onlyProgressible(false), onlyStarted(false), onlyNonCompleted(true), onlyNoType(false), onlyMindless(false),
 onlyMinimalFocus(false), onlyMaximumFocus(false) {}
 
 FUTA::FUTA() : FUTAmenu(true), toDeleteID(0), screenWidth(0), screenHeight(0), filterOptions(), userFilterOptions(), reorderVector(false) {
@@ -76,6 +76,7 @@ void FUTA::DrawOptions() {
 
 	AddTabulation();
 	ImGui::Text("Select filtering 'exclude x' options:"); AddSpacedText("");
+	ImGui::Checkbox("No type defined", &filterOptions.onlyNoType); AddSpacedText("");
 	ImGui::Checkbox("Mindless focus", &filterOptions.onlyMindless); AddSpacedText("");
 	ImGui::Checkbox("Minimal focus", &filterOptions.onlyMinimalFocus); AddSpacedText("");
 	ImGui::Checkbox("Maximum focus", &filterOptions.onlyMaximumFocus); ImGui::NewLine();
@@ -114,6 +115,7 @@ void FUTA::DrawTaskList() {
 		if (filterOptions.onlyProgressible && (taskList[i].progressionState == 0 || taskList[i].progressionState == 1) == false) { draw = false; }
 		if (filterOptions.onlyStarted && taskList[i].started == false) { draw = false; }
 		if (filterOptions.onlyNonCompleted && taskList[i].completed) { draw = false; }
+		if (filterOptions.onlyNoType && taskList[i].effort == 0) { draw = false; }
 		if (filterOptions.onlyMindless && taskList[i].effort == 1) { draw = false; }
 		if (filterOptions.onlyMinimalFocus && taskList[i].effort == 2) { draw = false; }
 		if (filterOptions.onlyMaximumFocus && taskList[i].effort == 3) { draw = false; }

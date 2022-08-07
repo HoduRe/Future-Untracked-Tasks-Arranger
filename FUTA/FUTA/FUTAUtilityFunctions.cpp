@@ -30,6 +30,7 @@ void FUTA::LoadData() {
 	}
 
 	LoadFilterData();
+	ReorderTaskVector();
 
 }
 
@@ -96,6 +97,7 @@ void FUTA::SaveFilterData() {
 	filterNode.append_attribute("onlyProgressible") = userFilterOptions.onlyProgressible;
 	filterNode.append_attribute("onlyStarted") = userFilterOptions.onlyStarted;
 	filterNode.append_attribute("onlyNonCompleted") = userFilterOptions.onlyNonCompleted;
+	filterNode.append_attribute("onlyNoType") = userFilterOptions.onlyNoType;
 	filterNode.append_attribute("onlyMindless") = userFilterOptions.onlyMindless;
 	filterNode.append_attribute("onlyMinimalFocus") = userFilterOptions.onlyMinimalFocus;
 	filterNode.append_attribute("onlyMaximumFocus") = userFilterOptions.onlyMaximumFocus;
@@ -118,6 +120,7 @@ void FUTA::LoadFilterData() {
 		filterOptions.onlyProgressible = filterNode.attribute("onlyProgressible").as_bool();
 		filterOptions.onlyStarted = filterNode.attribute("onlyStarted").as_bool();
 		filterOptions.onlyNonCompleted = filterNode.attribute("onlyNonCompleted").as_bool();
+		filterOptions.onlyNoType = filterNode.attribute("onlyNoType").as_bool();
 		filterOptions.onlyMindless = filterNode.attribute("onlyMindless").as_bool();
 		filterOptions.onlyMinimalFocus = filterNode.attribute("onlyMinimalFocus").as_bool();
 		filterOptions.onlyMaximumFocus = filterNode.attribute("onlyMaximumFocus").as_bool();
@@ -264,8 +267,12 @@ bool ReorderByStartingDate(Tasks& taskA, Tasks& taskB) {
 	std::string auxA = ComposeReverseDate(taskA.initialDate);
 	std::string auxB = ComposeReverseDate(taskB.initialDate);
 
-	if (auxA.size() == 0) { auxA = "0"; }
-	if (auxB.size() == 0) { auxB = "0"; }
+	if (auxA.size() == 0) { auxA = "20220000"; }
+	if (auxB.size() == 0) { auxB = "20220000"; }
+
+	// Ensure dates that start by the 0-0-currentYear don't get shown first:
+	if (auxA.size() > 7 && auxA.compare(4, 1, "0") == 0 && auxA.compare(5, 1, "0") == 0 && auxA.compare(6, 1, "0") == 0 && auxA.compare(7, 1, "0") == 0) { return false; }
+	if (auxB.size() > 7 && auxB.compare(4, 1, "0") == 0 && auxB.compare(5, 1, "0") == 0 && auxB.compare(6, 1, "0") == 0 && auxB.compare(7, 1, "0") == 0) { return true; }
 
 	return std::stoi(auxA) < std::stoi(auxB);
 
