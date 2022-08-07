@@ -1,4 +1,4 @@
 TASKS:
 
-- FUTA should have a search task thing
-- Add a percentage list if subtasks, to pump yourself
+- FUTA should have a search task thing --> mayus minus matters
+

@@ -12,13 +12,15 @@ Preferences covers the filtering capabilities of FUTA. Which are divided in four
 	<li>Ordering options: by name, starting date or by importance. Whenever a task is added or edited, the filtering doesn't occur automatically (it was this
 	or to have ImGui detect a change before the user was done editing, which would re-order tasks mid-editing. Trust me, this is better); to trigger it, either select
 	the ordering option again, or press "Rearrange again".</li>
-	<li>"Only x" filtering options: only shows tasks that have deadlines, which are progressible, which have been started, or which are not completed.</li>
-	<li>"Exclude x" filtering options: hides tasks that are performed mindlessly, with minimal focus or with maximum focus.</li>
+	<li>"Only x" filtering options: only shows tasks that have deadlines, which are progressible (or not), that have been started, or which are not completed.</li>
+	<li>"Exclude x" filtering options: hides tasks that have not had a state assigned, those that are performed mindlessly, with minimal focus or with maximum focus.</li>
+	<li>Task name filter: only shows tasks that contain the written string in the text box. It is lower and uppercase sensitive.</li>
 </ul>
 
 ### FUTA Tasks
 
-Section where the tasks are shown. It has an extra creation button, and completed tasks deletion button for convenience's sake.
+Section where the tasks are shown. It has some extra functionality: a task creation button, one to open all task tabs, one to close them all, 
+and a button to delete all completed tasks.
 For each task, there are the following variables:
 <ul>
 	<li>Name: name of the task, with a 75 character limit. They can be repeated, since tasks have time-based UID as identifiers.</li>
@@ -31,8 +33,10 @@ For each task, there are the following variables:
 	<li>Starting date: date to start the task.</li>
 	<li>Ending date: date to end the task (my brain is so big).</li>
 	<li>Deadline checkbox: whether the task has a deadline or is more of a chill 'TODO'.</li>
-	<li>Task description: if there's anything to write about the task, here you have 250 free characters to do so.</li>
-	<li>Subtasks: a simplified task menu to split a task into smaller, more affordable tasks.</li>
+	<li>Task description: if there's anything to write about the task, here you have 250 free characters to do so. The checkbox in front of the tab is to keep
+	it open at all times (even after closing FUTA).</li>
+	<li>Subtasks: a simplified task menu to split a task into smaller, more affordable tasks, with a progress bar included. The checkbox in front of the tab is to keep
+	it open at all times (even after closing FUTA).</li>
 </ul>
 
 That would be about it, it's not that bad to learn, aye? :3

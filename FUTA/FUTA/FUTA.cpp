@@ -83,7 +83,11 @@ void FUTA::DrawOptions() {
 	ImGui::Checkbox("No type defined", &filterOptions.onlyNoType); AddSpacedText("");
 	ImGui::Checkbox("Mindless focus", &filterOptions.onlyMindless); AddSpacedText("");
 	ImGui::Checkbox("Minimal focus", &filterOptions.onlyMinimalFocus); AddSpacedText("");
-	ImGui::Checkbox("Maximum focus", &filterOptions.onlyMaximumFocus); ImGui::NewLine();
+	ImGui::Checkbox("Maximum focus", &filterOptions.onlyMaximumFocus);
+
+	AddTabulation();
+	ImGui::SetNextItemWidth(screenWidth * 0.3);
+	ImGui::InputText("Task Name Searcher", (char*)taskSearcher, IM_ARRAYSIZE(taskSearcher)); ImGui::NewLine();
 
 }
 
@@ -105,9 +109,6 @@ void FUTA::DrawTaskList() {
 	AddSpacedText("");
 	if (ImGui::Button("Open all tasks")) { openAllTasks = true; } AddSpacedText("");
 	if (ImGui::Button("Close all tasks")) { closeAllTasks = true; }
-
-	ImGui::SameLine(); AddSpacedText(""); ImGui::SetNextItemWidth(screenWidth * 0.3);
-	ImGui::InputText("Task Name Searcher", (char*)taskSearcher, IM_ARRAYSIZE(taskSearcher));
 
 	ImGui::SameLine(); AddSpacedText("");
 	if (DrawAllDeletePopUp()) {
@@ -174,6 +175,15 @@ void FUTA::DrawTask(Tasks& task) {
 			ImGui::InputTextMultiline(ConstructItemName("description", task.taskID).c_str(), (char*)task.description, IM_ARRAYSIZE(task.description), descriptionBoxSize, descriptionFlags);
 			ImGui::TreePop();
 
+		}
+
+		if(task.subtaskList.size() > 0){
+
+			float totalCompleteTasks = 0;
+			for (int progressIt = 0; progressIt < task.subtaskList.size(); progressIt++) { if (task.subtaskList[progressIt].completed) { totalCompleteTasks++; } }
+			AddTabulation(); AddSpacedText("\t\tSubtask progress"); ImGui::SetNextItemWidth(screenWidth * 0.5);
+			ImGui::ProgressBar(totalCompleteTasks / task.subtaskList.size(), ImVec2(0.0f, 0.0f));
+		
 		}
 
 		DrawSubtasks(task);
