@@ -5,7 +5,8 @@
 FUTAFilter::FUTAFilter() : orderType(0), onlyDeadlines(false), onlyProgressible(false), onlyNonProgressible(false), onlyStarted(false), onlyNonCompleted(true), onlyNoType(false),
 onlyMindless(false), onlyMinimalFocus(false), onlyMaximumFocus(false) {}
 
-FUTA::FUTA() : FUTAmenu(true), toDeleteID(0), screenWidth(0), screenHeight(0), filterOptions(), userFilterOptions(), reorderVector(false), openAllTasks(false), closeAllTasks(false) {
+FUTA::FUTA() : FUTAmenu(true), toDeleteID(0), screenWidth(0), screenHeight(0), filterOptions(), userFilterOptions(), reorderVector(false), openAllTasks(false), closeAllTasks(false),
+taskSearcher() {
 
 	struct tm tm;
 	time_t t = time(NULL);
@@ -105,6 +106,9 @@ void FUTA::DrawTaskList() {
 	if (ImGui::Button("Open all tasks")) { openAllTasks = true; } AddSpacedText("");
 	if (ImGui::Button("Close all tasks")) { closeAllTasks = true; }
 
+	ImGui::SameLine(); AddSpacedText(""); ImGui::SetNextItemWidth(screenWidth * 0.3);
+	ImGui::InputText("Task Name Searcher", (char*)taskSearcher, IM_ARRAYSIZE(taskSearcher));
+
 	ImGui::SameLine(); AddSpacedText("");
 	if (DrawAllDeletePopUp()) {
 		for (int i = 0; i < taskList.size();) {
@@ -118,6 +122,10 @@ void FUTA::DrawTaskList() {
 	for (int i = 0; i < taskList.size(); i++) {
 
 		bool draw = true;
+		if (taskSearcher[0] != NULL) {
+			std::string taskName = taskList[i].name;
+			if (taskName.find(taskSearcher) == std::string::npos) { draw = false; }
+		}
 		if (filterOptions.onlyDeadlines && taskList[i].deadline == false) { draw = false; }
 		if (filterOptions.onlyProgressible && (taskList[i].progressionState == 0 || taskList[i].progressionState == 1) == false) { draw = false; }
 		if (filterOptions.onlyNonProgressible && (taskList[i].progressionState < 2)) { draw = false; }

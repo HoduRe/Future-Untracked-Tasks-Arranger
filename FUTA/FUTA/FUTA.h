@@ -74,6 +74,8 @@ private:
 	FUTAFilter filterOptions;
 	FUTAFilter userFilterOptions;
 
+	char taskSearcher[75];
+
 };
 
 #endif
