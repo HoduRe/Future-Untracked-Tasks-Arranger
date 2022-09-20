@@ -6,16 +6,21 @@ A simple ImGui-based app to do adjusted plannings, holding self-made filters to 
 
 ### FUTA Preferences
 
-Preferences covers the filtering capabilities of FUTA. Which are divided in four segments:
+Preferences covers the filtering capabilities of FUTA. Which are divided in six segments:
 <ul>
 	<li>Filtering save options: save or restore default options to have them available right when starting the program.</li>
 	<li>Ordering options: by name, starting date or by importance. Whenever a task is added or edited, the filtering doesn't occur automatically (it was this
 	or to have ImGui detect a change before the user was done editing, which would re-order tasks mid-editing. Trust me, this is better); to trigger it, either select
 	the ordering option again, or press "Rearrange again".</li>
-	<li>"Only x" filtering options: only shows tasks that have deadlines, which are progressible (or not), that have been started, or which are not completed.</li>
-	<li>"Exclude x" filtering options: hides tasks that have not had a state assigned, those that are performed mindlessly, with minimal focus or with maximum focus.</li>
+	<li>"Only x" filtering options: only shows tasks that have deadlines, which are progressible (or not), which aren't recurrent, which can be made on the gym (don't question my optimizational needs), that have been started, or which are not completed.</li>
+	<li>"All x" filtering options: shows tasks that can be done while waking up, sleep deprived, in physical pain (again, it makes sense in the context of my life), while mentally wasted, while operative, or if no type has been selected.</li>
+	<li>"Exclude x" filtering options: hides the same tasks as above. Takes priority over the prior filtering.</li>
 	<li>Task name filter: only shows tasks that contain the written string in the text box. It is lower and uppercase sensitive.</li>
 </ul>
+
+### FUTA started tasks
+
+Displays all started tasks, ordered by stress types. This is supposed to serve as a guide of what are you doing in each operative facet of your life.
 
 ### FUTA Tasks
 
@@ -28,8 +33,9 @@ For each task, there are the following variables:
 	<li>Completed checkbox: whether a task has been completed.</li>
 	<li>Delete task: button to delete the task (has a confirmation in case of missclick).</li>
 	<li>State: defines the current state of the task.</li>
-	<li>Effort type: defines the mind state in which the task should be performed.</li>
 	<li>Importance: a value of priority for filtering.</li>
+	<li>At the gym: defines if it can be performed at the gym.</li>
+	<li>Stress state: checkboxes that define under which mind states a task should be performed.</li>
 	<li>Starting date: date to start the task.</li>
 	<li>Ending date: date to end the task (my brain is so big).</li>
 	<li>Deadline checkbox: whether the task has a deadline or is more of a chill 'TODO'.</li>

@@ -33,7 +33,7 @@ void FUTA::Update(int _screenWidth, int _screenHeight) {
 	ImGuiTreeNodeFlags headerFlags = ImGuiTreeNodeFlags_DefaultOpen;
 
 	if (ImGui::CollapsingHeader("FUTA preferences", headerFlags)) { DrawOptions(); }
-	if (ImGui::CollapsingHeader("FUTA started task")) { DrawStartedTasks(); }
+	if (ImGui::CollapsingHeader("FUTA started tasks")) { DrawStartedTasks(); }
 	if (ImGui::CollapsingHeader("FUTA tasks", headerFlags)) { DrawTaskList(); }
 
 	//////// ------------------------------------------------------
@@ -78,7 +78,7 @@ void FUTA::DrawOptions() {
 	ImGui::Checkbox("Progressible", &filterOptions.onlyProgressible); AddSpacedText("");
 	ImGui::Checkbox("Non-progressible", &filterOptions.onlyNonProgressible); AddSpacedText("");
 	ImGui::Checkbox("Non-recurrent", &filterOptions.onlyNonRecurrent); AddSpacedText("");
-	ImGui::Checkbox("On the gym", &filterOptions.onlyOnTheGym); AddSpacedText("");
+	ImGui::Checkbox("At the gym", &filterOptions.onlyOnTheGym); AddSpacedText("");
 	ImGui::Checkbox("Started##Filter", &filterOptions.onlyStarted); AddSpacedText("");
 	ImGui::Checkbox("Non-Completed", &filterOptions.onlyNonCompleted);
 
@@ -110,7 +110,7 @@ void FUTA::DrawOptions() {
 #pragma endregion
 
 
-#pragma region DRAW_TASK_LIST
+#pragma region STARTED_TASKS
 
 void FUTA::DrawStartedTasks() { DrawCurrentlyStartedTasks(); }
 
@@ -232,7 +232,7 @@ void FUTA::DrawTask(Tasks& task) {
 		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.08);
 		ImGui::InputInt(("Importance" + ConstructItemName("importance", task.taskID)).c_str(), &task.importance);
 		AddSpacedText("");
-		ImGui::Checkbox(("On the gym" + ConstructItemName("onTheGym", task.taskID)).c_str(), &task.onTheGym);
+		ImGui::Checkbox(("At the gym" + ConstructItemName("onTheGym", task.taskID)).c_str(), &task.onTheGym);
 
 		DrawStressType(task);
 		DrawDates(task);
