@@ -13,12 +13,21 @@ struct FUTAFilter {
 	bool onlyDeadlines;
 	bool onlyProgressible;
 	bool onlyNonProgressible;
+	bool onlyNonRecurrent;
 	bool onlyStarted;
 	bool onlyNonCompleted;
-	bool onlyNoType;
-	bool onlyMindless;
-	bool onlyMinimalFocus;
-	bool onlyMaximumFocus;
+	bool onlyWoke;
+	bool onlyDeprived;
+	bool onlyPained;
+	bool onlyWasted;
+	bool onlyOperative;
+	bool allWoke;
+	bool allDeprived;
+	bool allPained;
+	bool allWasted;
+	bool allOperative;
+	bool allNoneType;
+	bool onlyOnTheGym;
 
 };
 
@@ -36,16 +45,18 @@ public:
 private:
 
 	void DrawOptions();
+	void DrawStartedTasks();
 
 	void DrawTaskList();
 	void DrawTask(Tasks& task);
 	void DrawBasicTaskData(Tasks& task, Tasks* parentTask = nullptr);
 	void DrawProgressState(Tasks& task);
-	void DrawEffortType(Tasks& task);
+	void DrawStressType(Tasks& task);
 	void DrawDates(Tasks& task);
 	void DrawSubtasks(Tasks& task);
 	bool DrawDeletePopUp(double taskID);
 	bool DrawAllDeletePopUp();
+	void DrawCurrentlyStartedTasks();
 
 	void DrawColoredButton(bool& condition, std::string buttonName);
 	std::string ConstructItemName(std::string itemName, double id);

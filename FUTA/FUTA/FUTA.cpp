@@ -2,8 +2,9 @@
 #include "FUTA.h"
 #include <time.h>
 
-FUTAFilter::FUTAFilter() : orderType(0), onlyDeadlines(false), onlyProgressible(false), onlyNonProgressible(false), onlyStarted(false), onlyNonCompleted(true), onlyNoType(false),
-onlyMindless(false), onlyMinimalFocus(false), onlyMaximumFocus(false) {}
+FUTAFilter::FUTAFilter() : orderType(0), onlyDeadlines(false), onlyProgressible(false), onlyNonProgressible(false), onlyStarted(false), onlyNonCompleted(true), onlyWoke(false),
+onlyDeprived(false), onlyPained(false), onlyWasted(false), onlyOperative(false), allWoke(true), allDeprived(true), allPained(true), allWasted(true), allOperative(true), allNoneType(true),
+onlyNonRecurrent(false), onlyOnTheGym(false) {}
 
 FUTA::FUTA() : FUTAmenu(true), toDeleteID(0), screenWidth(0), screenHeight(0), filterOptions(), userFilterOptions(), reorderVector(false), openAllTasks(false), closeAllTasks(false),
 taskSearcher() {
@@ -32,6 +33,7 @@ void FUTA::Update(int _screenWidth, int _screenHeight) {
 	ImGuiTreeNodeFlags headerFlags = ImGuiTreeNodeFlags_DefaultOpen;
 
 	if (ImGui::CollapsingHeader("FUTA preferences", headerFlags)) { DrawOptions(); }
+	if (ImGui::CollapsingHeader("FUTA started task")) { DrawStartedTasks(); }
 	if (ImGui::CollapsingHeader("FUTA tasks", headerFlags)) { DrawTaskList(); }
 
 	//////// ------------------------------------------------------
@@ -75,19 +77,78 @@ void FUTA::DrawOptions() {
 	ImGui::Checkbox("Deadlines", &filterOptions.onlyDeadlines); AddSpacedText("");
 	ImGui::Checkbox("Progressible", &filterOptions.onlyProgressible); AddSpacedText("");
 	ImGui::Checkbox("Non-progressible", &filterOptions.onlyNonProgressible); AddSpacedText("");
+	ImGui::Checkbox("Non-recurrent", &filterOptions.onlyNonRecurrent); AddSpacedText("");
+	ImGui::Checkbox("On the gym", &filterOptions.onlyOnTheGym); AddSpacedText("");
 	ImGui::Checkbox("Started##Filter", &filterOptions.onlyStarted); AddSpacedText("");
 	ImGui::Checkbox("Non-Completed", &filterOptions.onlyNonCompleted);
 
 	AddTabulation();
+	ImGui::Text("Select filtering 'all x' options:"); AddSpacedText("");
+	ImGui::Checkbox("Waking up##AllX", &filterOptions.allWoke); AddSpacedText("");
+	ImGui::Checkbox("Sleep deprived##AllX", &filterOptions.allDeprived); AddSpacedText("");
+	ImGui::Checkbox("Physical pain##AllX", &filterOptions.allPained); AddSpacedText("");
+	ImGui::Checkbox("Mentally wasted##AllX", &filterOptions.allWasted); AddSpacedText("");
+	ImGui::Checkbox("Operative##AllX", &filterOptions.allOperative); AddSpacedText("");
+	ImGui::Checkbox("No type##AllX", &filterOptions.allNoneType);
+
+	AddTabulation();
 	ImGui::Text("Select filtering 'exclude x' options:"); AddSpacedText("");
-	ImGui::Checkbox("No type defined", &filterOptions.onlyNoType); AddSpacedText("");
-	ImGui::Checkbox("Mindless focus", &filterOptions.onlyMindless); AddSpacedText("");
-	ImGui::Checkbox("Minimal focus", &filterOptions.onlyMinimalFocus); AddSpacedText("");
-	ImGui::Checkbox("Maximum focus", &filterOptions.onlyMaximumFocus);
+	ImGui::Checkbox("Waking up##ExcludeX", &filterOptions.onlyWoke); AddSpacedText("");
+	ImGui::Checkbox("Sleep deprived##ExcludeX", &filterOptions.onlyDeprived); AddSpacedText("");
+	ImGui::Checkbox("Physical pain##ExcludeX", &filterOptions.onlyPained); AddSpacedText("");
+	ImGui::Checkbox("Mentally wasted##ExcludeX", &filterOptions.onlyWasted); AddSpacedText("");
+	ImGui::Checkbox("Operative##ExcludeX", &filterOptions.onlyOperative);
 
 	AddTabulation();
 	ImGui::SetNextItemWidth(screenWidth * 0.3);
 	ImGui::InputText("Task Name Searcher", (char*)taskSearcher, IM_ARRAYSIZE(taskSearcher)); ImGui::NewLine();
+
+
+
+}
+
+#pragma endregion
+
+
+#pragma region DRAW_TASK_LIST
+
+void FUTA::DrawStartedTasks() { DrawCurrentlyStartedTasks(); }
+
+void FUTA::DrawCurrentlyStartedTasks() {
+
+	std::vector<Tasks> wokeVec;
+	std::vector<Tasks> deprivedVec;
+	std::vector<Tasks> painedVec;
+	std::vector<Tasks> wastedVec;
+	std::vector<Tasks> operativeVec;
+
+	for (int i = 0; i < taskList.size(); i++) {
+
+		if (taskList[i].started) {
+
+			if (taskList[i].woke) { wokeVec.push_back(taskList[i]); }
+			if (taskList[i].deprived) { deprivedVec.push_back(taskList[i]); }
+			if (taskList[i].pained) { painedVec.push_back(taskList[i]); }
+			if (taskList[i].wasted) { wastedVec.push_back(taskList[i]); }
+			if (taskList[i].operative) { operativeVec.push_back(taskList[i]); }
+
+		}
+
+	}
+
+	ImGui::NewLine();
+	AddSpacedText("Started tasks ordered by stress:");
+	AddSeparator(); AddSpacedText(""); AddSpacedText("Waking up:");
+	for (int i = 0; i < wokeVec.size(); i++) { AddTabulation(); AddSpacedText(""); AddSpacedText(wokeVec[i].name); }
+	AddSeparator();	AddSpacedText(""); AddSpacedText("Sleep deprived:");
+	for (int i = 0; i < deprivedVec.size(); i++) { AddTabulation(); AddSpacedText(""); AddSpacedText(deprivedVec[i].name); }
+	AddSeparator(); AddSpacedText(""); AddSpacedText("Physically pained:");
+	for (int i = 0; i < painedVec.size(); i++) { AddTabulation(); AddSpacedText(""); AddSpacedText(painedVec[i].name); }
+	AddSeparator(); AddSpacedText(""); AddSpacedText("Mentally wasted:");
+	for (int i = 0; i < wastedVec.size(); i++) { AddTabulation(); AddSpacedText(""); AddSpacedText(wastedVec[i].name); }
+	AddSeparator(); AddSpacedText(""); AddSpacedText("Operative:");
+	for (int i = 0; i < operativeVec.size(); i++) { AddTabulation(); AddSpacedText(""); AddSpacedText(operativeVec[i].name); }
+	AddSeparator();
 
 }
 
@@ -130,12 +191,22 @@ void FUTA::DrawTaskList() {
 		if (filterOptions.onlyDeadlines && taskList[i].deadline == false) { draw = false; }
 		if (filterOptions.onlyProgressible && (taskList[i].progressionState == 0 || taskList[i].progressionState == 1) == false) { draw = false; }
 		if (filterOptions.onlyNonProgressible && (taskList[i].progressionState < 2)) { draw = false; }
+		if (filterOptions.onlyNonRecurrent && (taskList[i].progressionState == 5)) { draw = false; }
+		if (filterOptions.onlyOnTheGym && taskList[i].onTheGym == false) { draw = false; }
 		if (filterOptions.onlyStarted && taskList[i].started == false) { draw = false; }
 		if (filterOptions.onlyNonCompleted && taskList[i].completed) { draw = false; }
-		if (filterOptions.onlyNoType && taskList[i].effort == 0) { draw = false; }
-		if (filterOptions.onlyMindless && taskList[i].effort == 1) { draw = false; }
-		if (filterOptions.onlyMinimalFocus && taskList[i].effort == 2) { draw = false; }
-		if (filterOptions.onlyMaximumFocus && taskList[i].effort == 3) { draw = false; }
+		if ((filterOptions.allWoke == false || taskList[i].woke == false) && (filterOptions.allDeprived == false || taskList[i].deprived == false) &&
+			(filterOptions.allPained == false || taskList[i].pained == false) && (filterOptions.allWasted == false || taskList[i].wasted == false) &&
+			(filterOptions.allOperative == false || taskList[i].operative == false) &&
+			(filterOptions.allNoneType == false || (taskList[i].woke || taskList[i].deprived || taskList[i].pained || taskList[i].wasted || taskList[i].operative))) {
+			draw = false;
+		}
+		// Yikes
+		if (filterOptions.onlyWoke && taskList[i].woke) { draw = false; }
+		if (filterOptions.onlyDeprived && taskList[i].deprived) { draw = false; }
+		if (filterOptions.onlyPained && taskList[i].pained) { draw = false; }
+		if (filterOptions.onlyWasted && taskList[i].wasted) { draw = false; }
+		if (filterOptions.onlyOperative && taskList[i].operative) { draw = false; }
 		if (draw) { DrawTask(taskList[i]); }
 
 	}
@@ -156,12 +227,14 @@ void FUTA::DrawTask(Tasks& task) {
 	if (ImGui::TreeNode(("Task data" + ConstructItemName("taskData", task.taskID)).c_str())) {
 
 		DrawProgressState(task);
-		DrawEffortType(task);
 
 		AddSpacedText("");
 		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.08);
 		ImGui::InputInt(("Importance" + ConstructItemName("importance", task.taskID)).c_str(), &task.importance);
+		AddSpacedText("");
+		ImGui::Checkbox(("On the gym" + ConstructItemName("onTheGym", task.taskID)).c_str(), &task.onTheGym);
 
+		DrawStressType(task);
 		DrawDates(task);
 
 		AddTabulation();
@@ -177,13 +250,13 @@ void FUTA::DrawTask(Tasks& task) {
 
 		}
 
-		if(task.subtaskList.size() > 0){
+		if (task.subtaskList.size() > 0) {
 
 			float totalCompleteTasks = 0;
 			for (int progressIt = 0; progressIt < task.subtaskList.size(); progressIt++) { if (task.subtaskList[progressIt].completed) { totalCompleteTasks++; } }
 			AddTabulation(); AddSpacedText("\t\tSubtask progress"); ImGui::SetNextItemWidth(screenWidth * 0.5);
 			ImGui::ProgressBar(totalCompleteTasks / task.subtaskList.size(), ImVec2(0.0f, 0.0f));
-		
+
 		}
 
 		DrawSubtasks(task);
@@ -231,18 +304,27 @@ void FUTA::DrawProgressState(Tasks& task) {
 
 	AddTabulation();
 	ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.25);
-	const char* progressionItems[] = { "No state", "In progress", "Waiting for another task", "Waiting for other people", "Postposed" };
+	const char* progressionItems[] = { "No state", "In progress", "Waiting for another task", "Waiting for other people", "Postposed", "Recurrent" };
 	ImGui::Combo(("Current Progression State" + ConstructItemName("progressState", task.taskID)).c_str(), &task.progressionState, progressionItems, IM_ARRAYSIZE(progressionItems));
 
 }
 
 
-void FUTA::DrawEffortType(Tasks& task) {
+void FUTA::DrawStressType(Tasks& task) {
 
+	AddTabulation();
+	ImGui::Text("Stress state:");
 	AddSpacedText("");
-	ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.15);
-	const char* effortItems[] = { "No type", "Mindless", "Minimal focus", "Maximum focus" };
-	ImGui::Combo(("Effort Type" + ConstructItemName("effortType", task.taskID)).c_str(), &task.effort, effortItems, IM_ARRAYSIZE(effortItems));
+
+	ImGui::Checkbox(("Waking up" + ConstructItemName("woke", task.taskID)).c_str(), &task.woke);
+	AddSpacedText("");
+	ImGui::Checkbox(("Sleep deprived" + ConstructItemName("sleepDeprived", task.taskID)).c_str(), &task.deprived);
+	AddSpacedText("");
+	ImGui::Checkbox(("Physic pain" + ConstructItemName("physicPain", task.taskID)).c_str(), &task.pained);
+	AddSpacedText("");
+	ImGui::Checkbox(("Mentally wasted" + ConstructItemName("mentallyWasted", task.taskID)).c_str(), &task.wasted);
+	AddSpacedText("");
+	ImGui::Checkbox(("Operative" + ConstructItemName("operative", task.taskID)).c_str(), &task.operative);
 
 }
 
@@ -346,4 +428,3 @@ bool FUTA::DrawAllDeletePopUp() {
 }
 
 #pragma endregion
-

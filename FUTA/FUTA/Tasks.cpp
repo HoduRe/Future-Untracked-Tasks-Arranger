@@ -8,7 +8,7 @@ double GenerateID() {
 
 }
 
-Tasks::Tasks() : taskID(GenerateID()), importance(0), progressionState(0), effort(0), started(false), completed(false), deadline(false),
+Tasks::Tasks() : taskID(GenerateID()), importance(0), progressionState(0), started(false), completed(false), deadline(false),
 textOpen(false), subtasksOpen(false), name("ANewTask"), description(""), initialDate(""), finalDate(""), subtaskList() {
 
 }

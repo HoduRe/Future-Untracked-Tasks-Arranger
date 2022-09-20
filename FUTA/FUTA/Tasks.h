@@ -17,13 +17,18 @@ public:
 	double taskID;
 	int importance;
 	int progressionState;
-	int effort;
 
 	bool started;
 	bool completed;
 	bool deadline;
 	bool textOpen;
 	bool subtasksOpen;
+	bool onTheGym;
+	bool woke;
+	bool deprived;
+	bool pained;
+	bool wasted;
+	bool operative;
 
 	char name[NAME_BUFFER];
 	char description[DESCRIPTION_BUFFER];
