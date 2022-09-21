@@ -9,9 +9,8 @@ double GenerateID() {
 }
 
 Tasks::Tasks() : taskID(GenerateID()), importance(0), progressionState(0), started(false), completed(false), deadline(false),
-textOpen(false), subtasksOpen(false), name("ANewTask"), description(""), initialDate(""), finalDate(""), subtaskList() {
-
-}
+textOpen(false), subtasksOpen(false), name("ANewTask"), description(""), initialDate(""), finalDate(""), subtaskList(), onTheGym(false), woke(false), deprived(false),
+pained(false), wasted(false), operative(false) {}
 
 Tasks::~Tasks() {}
 
