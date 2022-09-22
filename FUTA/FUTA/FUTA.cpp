@@ -281,9 +281,10 @@ void FUTA::DrawBasicTaskData(Tasks& task, Tasks* parentTask) {
 		DrawColoredButton(task.started, ConstructItemName("started", task.taskID));
 		AddSpacedText("Completed");
 		DrawColoredButton(task.completed, ConstructItemName("completed", task.taskID));
-		AddSpacedText("\t");
 
 	}
+
+	AddSpacedText("\t");
 
 	if (DrawDeletePopUp(task.taskID)) {
 
