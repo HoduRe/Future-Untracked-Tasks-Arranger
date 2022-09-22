@@ -274,11 +274,16 @@ void FUTA::DrawBasicTaskData(Tasks& task, Tasks* parentTask) {
 	ImGui::SameLine(); ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.5);
 	if (ImGui::InputText(ConstructItemName("name", task.taskID).c_str(), (char*)task.name, IM_ARRAYSIZE(task.name), inputTextFlags)) { reorderVector = true; }
 	if (ImGui::IsItemDeactivatedAfterEdit()) { reorderVector = true; }
-	AddSpacedText("Started");
-	DrawColoredButton(task.started, ConstructItemName("started", task.taskID));
-	AddSpacedText("Completed");
-	DrawColoredButton(task.completed, ConstructItemName("completed", task.taskID));
-	AddSpacedText("\t");
+
+	if (task.progressionState != 5) {
+
+		AddSpacedText("Started");
+		DrawColoredButton(task.started, ConstructItemName("started", task.taskID));
+		AddSpacedText("Completed");
+		DrawColoredButton(task.completed, ConstructItemName("completed", task.taskID));
+		AddSpacedText("\t");
+
+	}
 
 	if (DrawDeletePopUp(task.taskID)) {
 
