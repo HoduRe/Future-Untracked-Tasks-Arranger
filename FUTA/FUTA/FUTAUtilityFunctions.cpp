@@ -159,6 +159,7 @@ void FUTA::LoadFilterData() {
 		filterOptions.onlyNonRecurrent = filterNode.attribute("onlyNonRecurrent").as_bool();
 		filterOptions.onlyOnTheGym = filterNode.attribute("onlyOnTheGym").as_bool();
 
+		userFilterOptions = filterOptions;
 	}
 
 }
