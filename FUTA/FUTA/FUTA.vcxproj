@@ -190,7 +190,14 @@
     <ClInclude Include="MathGeoLib (edited)\src\Time\Clock.h" />
     <ClInclude Include="PugiXml\src\pugiconfig.hpp" />
     <ClInclude Include="PugiXml\src\pugixml.hpp" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Tasks.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="FUTA.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="FUTAIcon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

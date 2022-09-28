@@ -167,5 +167,12 @@
     <ClInclude Include="MathGeoLib (edited)\src\Time\Clock.h">
       <Filter>MathGeoLib</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="FUTA.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="FUTAIcon.ico" />
   </ItemGroup>
 </Project>
